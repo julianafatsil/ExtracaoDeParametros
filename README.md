@@ -1,4 +1,4 @@
-# ExtracaoDeParametros
+# Extracao de Parametros
 Extração de arquivos .docx, .pdf e .epub
 
 Passos para configuração:
