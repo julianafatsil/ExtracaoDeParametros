@@ -1,5 +1,5 @@
 # Extração de Parâmetros
-Extração de arquivos .docx, .pdf e .epub
+Extração de arquivos .docx, .pdf e .epub.
 
 Passos para configuração:
 
