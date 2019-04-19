@@ -1,3 +1,7 @@
+// let extratorDoc = require('docx-extractor');
+import * as docx from "docx-extractor/index";
+const extractorDoc = new docx;
+
 function EhDocWord(extensaoArq){
     return extensaoArq == 'DOCX';
 }
@@ -42,7 +46,7 @@ function ExecutarExatracaoArquivo(filename) {
 }
 
 function ExtratorWord(filename){
-    let extratorDoc = require('docx-extractor');
+   
 
     extratorDoc.timeCreated(filename, function (ImageData) {
         console.log(ImageData )
@@ -60,5 +64,3 @@ function ExtratorPdf(filename){
     });
 }
 
-ExecutarExatracaoArquivo('../MaiconTeste/teste.docx');
-ExecutarExatracaoArquivo('../MaiconTeste/SAMPLE.PDF');

@@ -1,0 +1,35 @@
+{
+  "name": "extracaodeparametros",
+  "version": "1.0.0",
+  "description": "Realiza extracao de parametros de documentos .docx, .pdf e .epub.",
+  "main": "server.js",
+  "dependencies": {
+    "docx-extractor": "^1.1.5",
+    "express": "^4.16.4",
+    "pdf.js-extract": "^0.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Julianaf/ExtracaoDeParametros.git"
+  },
+  "keywords": [
+    "extração",
+    "parametros",
+    "pdf",
+    "word",
+    "docx",
+    "epub",
+    "acessibilidade"
+  ],
+  "author": "SILVA et al",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/Julianaf/ExtracaoDeParametros/issues"
+  },
+  "homepage": "https://github.com/Julianaf/ExtracaoDeParametros#readme"
+}
