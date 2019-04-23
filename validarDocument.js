@@ -1,6 +1,4 @@
-// let extratorDoc = require('docx-extractor');
-import * as docx from "docx-extractor/index";
-const extractorDoc = new docx;
+let extratorDoc = require('docx-extractor');
 
 function EhDocWord(extensaoArq){
     return extensaoArq == 'DOCX';
@@ -59,8 +57,31 @@ function ExtratorPdf(filename){
     const options = {}; 
 
     pdfExtract.extract(filename, options, (err, data) => {
-        if (err) return console.log(err);
-            console.log(data);
-    });
+        if (err){ 
+            return console.log(err);
+        } else {
+            DadosArquivos.TipoDoc = 'PDF';
+            DadosArquivos.Version = data.meta.info.PDFFormatVersion;
+            DadosArquivos.Title = data.meta.info.Title;
+            DadosArquivos.Author = data.meta.info.Author;
+            DadosArquivos.Subject = data.meta.info.Subject;
+            DadosArquivos.Keywords = data.meta.info.Keywords;
+            DadosArquivos.Creator = data.meta.info.Creator;
+            DadosArquivos.Producer = data.meta.info.Producer;
+            DadosArquivos.CreationData = data.meta.info.CreationDate;
+            DadosArquivos.ModDate = data.meta.info.ModDate;
+
+            DadosArquivos.pageInfo = data.pages[1].pageInfo;
+            DadosArquivos.content = data.pages[1].content;
+        }
+            console.log(DadosArquivos)
+            // console.log(data.pages[1].pageInfo);
+    })
 }
+
+let DadosArquivos = {}
+
+
+
+
 
