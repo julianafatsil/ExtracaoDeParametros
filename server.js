@@ -20,6 +20,10 @@ server.get('/sobre',(req,res)=>{
     res.send('Sobre')
 })
 
+server.get('/images/img.png',(req,res)=>{
+    res.sendFile(path.join(__dirname + '/images/img.png'))
+})
+
 
 server.listen(3001, () =>{
     console.log('Servidor iniciado em http://localhost:3001')
