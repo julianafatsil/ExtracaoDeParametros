@@ -1,31 +1,17 @@
 const express = require('express')
 const server = express()
+const bodyParser = require('body-parser')
 const path = require('path')
 
-server.get('/', (req, res) =>{
-    res.sendFile(path.join(__dirname + '/index.html'))
+//Para usar no método POST
+server.use(bodyParser.urlencoded({extended: false})) 
+server.use(bodyParser.json()) 
 
-})
+const indexRoute = require('./Routes/index')
 
-server.get('/validarDocument.js', (req, res) =>{
-    res.sendFile(path.join(__dirname + '/validarDocument.js'))
-
-})
-
-server.post('/contato',(req,res) => {
-   res.send('Funciona') 
-})
-
-server.get('/sobre',(req,res)=>{
-    res.send('Sobre')
-})
-
-server.get('/images/img.png',(req,res)=>{
-    res.sendFile(path.join(__dirname + '/images/img.png'))
-})
-
+server.use('/', indexRoute)
 
 server.listen(3001, () =>{
     console.log('Servidor iniciado em http://localhost:3001')
-    console.log('Para desligar o nosso servidor: ctrl +c')
+    console.log('Para desligar o nosso servidor: ctrl + c')
 })
