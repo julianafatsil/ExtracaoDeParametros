@@ -37,3 +37,40 @@ exports.ReadDirectory = (FileDirectory, callback) => {
         }
     })
 }
+
+exports.ReadFileWithUtf8 = (FileForRead, callback) => {
+    fs.readFile(FileForRead, 'utf-8', function (err, data) {
+        return callback(err || data)
+    })
+}
+
+exports.ConferirEhDiretorio = (ArquivoPastaConferir, callback) => {
+    if (fs.lstat(ArquivoPastaConferir).isDirectory()) {
+        return callback('Diretorio')
+    } else {
+        return callback('Arquivo')
+    }
+}
+
+exports.ExtrairTodosArquivo = (PastaInicalSerExtraida, callback) => {
+    let Busca = this.ReadDirectory(PastaInicalSerExtraida, (err) => {
+        return callback(err)
+    })
+    return callback(Busca)
+}
+
+// baseDocument.ReadDirectory(NameEpub + '/OEBPS', (err) => {
+//     // return callback('Copiou, Renomeou, Extraiu, leu a pasta')
+//     if (err.indexOf('Error') > 0) {
+//         return callback('Erroooouuuu')
+//     } else {
+//         let CaminhosArquivo = []
+//         let CaminhosPasta = []
+//         for (let i = 0; i < err.length - 1; i++) {
+//             console.log(i + ' - ' + err[i])
+//             Caminhos = Caminhos + err[i] + ';'
+//         }
+//         return callback(Caminhos)
+//     }
+// })
+

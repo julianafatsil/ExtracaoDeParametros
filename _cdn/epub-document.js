@@ -1,4 +1,4 @@
-let baseDocument = require('./base-documnet')
+let baseDocument = require('./base-document')
 const path = require('path')
 
 exports.ExtrairDadosEpubCerto = (FileNameEpub, callback) => {
@@ -13,14 +13,14 @@ exports.ExtrairDadosEpubCerto = (FileNameEpub, callback) => {
                         if (err == 'Extraiu') {
                             baseDocument.ReadDirectory(NameEpub + '/OEBPS', (err) => {
                                 // return callback('Copiou, Renomeou, Extraiu, leu a pasta')
-                                if (err) {
-                                    let Caminhos
-                                    for (let i = 0; i < err.length; i++) {
-                                        Caminhos = Caminhos+err[i] + ';'
-                                    }
-                                    return callback(Caminhos)
-                                } else {
+                                if (err.indexOf('Error') > 0) {
                                     return callback('Erroooouuuu')
+                                } else {
+                                    let CaminhoArquivo = ''
+                                    for (let i = 0; i < err.length - 1; i++) {
+                                        CaminhoArquivo = CaminhoArquivo + '--' + err[i]
+                                    }
+                                    return callback(CaminhoArquivo)
                                 }
                             })
                         } else {
