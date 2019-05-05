@@ -1,26 +1,27 @@
 const express = require('express')
 const router = express.Router()
 const extensaoArq = require('./document')
+const epubDoc = require('../_cdn/epub-document')
+
+var fs = require('fs');
+const path = require('path');
+var fse = require('fs-extra');
+var unzip = require('unzip');
+var xml2js = require('xml2js');
+var jsonfile = require('jsonfile');
+var pointer = require('json-pointer');
+var parser = new xml2js.Parser()
 
 router.get('/', (req, res) => {
     let obj = req.query
+    let filepath = ''
 
     if (obj.caminhoarq) {
         let codigoArq = extensaoArq.ExtrairCodigoExtensao(obj.caminhoarq)
-        let retorno;
         if (codigoArq > 0) {
             switch (codigoArq) {
                 case 1:
-                    var fs = require('fs');
-                    const path = require('path');
-                    var fse = require('fs-extra');
-                    var unzip = require('unzip');
-                    var xml2js = require('xml2js');
-                    var jsonfile = require('jsonfile');
-                    var pointer = require('json-pointer');
-                    var parser = new xml2js.Parser()
-
-                    let filepath = obj.caminhoarq
+                    filepath = obj.caminhoarq
                     if (filepath.indexOf(".docx") > -1) {
                         var filename = path.basename(filepath);
                         var newFile = filename + '.zip';
@@ -57,10 +58,17 @@ router.get('/', (req, res) => {
                     })
                     break;
                 case 3:
-                    retorno = 'EPUB'
+                    epubDoc.ExtrairDadosEpubCerto(obj.caminhoarq, (err, data) => {
+                        console.log(err || data)
+                        if (data) {
+                            return res.send(data)
+                        } else {
+                            return res.send(err)
+                        }
+                    })
                     break;
                 default:
-                    retorno = 'Não existe extensão de arquivo valido'
+                    return res.send({ message: 'Não existe extensão de arquivo valido' })
                     break;
             }
         } else {
