@@ -39,7 +39,13 @@ exports.ReadDirectory = (FileDirectory, callback) => {
 }
 
 exports.ReadFileWithUtf8 = (FileForRead, callback) => {
-    fs.readFile(FileForRead, 'utf-8', function (err, data) {
+    fs.readFile(FileForRead, 'utf-8', (err, data) => {
+        return callback(err || data)
+    })
+}
+
+exports.ReadFileWithXml = (DocumentoXmlParaLeitura, callback) => {
+    fs.readFile(DocumentoXmlParaLeitura, (err, data) => {
         return callback(err || data)
     })
 }
@@ -58,19 +64,3 @@ exports.ExtrairTodosArquivo = (PastaInicalSerExtraida, callback) => {
     })
     return callback(Busca)
 }
-
-// baseDocument.ReadDirectory(NameEpub + '/OEBPS', (err) => {
-//     // return callback('Copiou, Renomeou, Extraiu, leu a pasta')
-//     if (err.indexOf('Error') > 0) {
-//         return callback('Erroooouuuu')
-//     } else {
-//         let CaminhosArquivo = []
-//         let CaminhosPasta = []
-//         for (let i = 0; i < err.length - 1; i++) {
-//             console.log(i + ' - ' + err[i])
-//             Caminhos = Caminhos + err[i] + ';'
-//         }
-//         return callback(Caminhos)
-//     }
-// })
-

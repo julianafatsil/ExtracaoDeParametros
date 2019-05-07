@@ -1,7 +1,6 @@
 const express = require('express')
 const server = express()
 const bodyParser = require('body-parser')
-const path = require('path')
 
 //Para usar no método POST
 server.use(bodyParser.urlencoded({extended: false})) 
