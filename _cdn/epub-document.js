@@ -12,15 +12,19 @@ exports.ExtrairDadosEpubCerto = (FileNameEpub, callback) => {
                     baseDocument.ExtractionFileZip(FilNameZipEpub, NameEpub, (err) => {
                         if (err == 'Extraiu') {
                             baseDocument.ReadDirectory(NameEpub + '/OEBPS', (err) => {
-                                // return callback('Copiou, Renomeou, Extraiu, leu a pasta')
                                 if (err.indexOf('Error') > 0) {
                                     return callback('Erroooouuuu')
                                 } else {
-                                    let CaminhoArquivo = ''
-                                    for (let i = 0; i < err.length - 1; i++) {
-                                        CaminhoArquivo = CaminhoArquivo + '--' + err[i]
-                                    }
-                                    return callback(CaminhoArquivo)
+                                    // baseDocument.ReadFileWithXml(__dirname + '/tmp/' + NameEpub + '/OEBPS/Styles/TurismoParaCegos.css', err => {
+                                    baseDocument.ReadFileWithXml(__dirname + '/tmp/' + NameEpub + '/OEBPS/Text/TurismoParaCegos-10.xhtml', err => {
+                                        console.log('Retorno' + err)
+                                        return callback({Retorno: err.toString('utf8')})
+                                    })
+                                    // let CaminhoArquivo = ''
+                                    // for (let i = 0; i < err.length - 1; i++) {
+                                    //     CaminhoArquivo = CaminhoArquivo + '--' + err[i]
+                                    // }
+                                    // return callback(CaminhoArquivo)
                                 }
                             })
                         } else {
@@ -36,41 +40,3 @@ exports.ExtrairDadosEpubCerto = (FileNameEpub, callback) => {
         }
     })
 }
-
-// exports.ExtrairDadosEpub = (FileNameEpub, callback) => {
-//     let FilePathEpub = FileNameEpub
-//     let NameEpub = path.basename(FilePathEpub);
-//     let FilNameZipEpub = NameEpub + '.zip';
-//     var RetornoEpub = `${__dirname}/tmp/${NameEpub}`;
-
-//     fse.copy(FilePathEpub, __dirname + '/tmp/' + NameEpub, function (err) {
-//         fs.rename(__dirname + '/tmp/' + NameEpub, __dirname + '/tmp/' + FilNameZipEpub, function (err) {
-//             fs.createReadStream(__dirname + '/tmp/' + FilNameZipEpub).pipe(unzip.Extract({ path: __dirname + '/tmp/' + NameEpub })).on('close', function () {
-//                 let caminhoEpub = __dirname + '/tmp/' + NameEpub + '/OEBPS/'
-//                 fs.readdir(caminhoEpub, (err, ArquivoEpub) => {
-//                     if (err) {
-//                         RetornoEpub = RetornoEpub +  (err)
-//                     } else {
-//                         let curPathEpub
-//                         ArquivoEpub.forEach((FileEpub, IndexEpub) => {
-//                             curPathEpub = `${caminhoEpub}/${FileEpub}`;
-//                             if (fs.lstatSync(curPathEpub).isDirectory()) {
-//                                 //Irá entrar na pasta e buscar os arquivos
-//                                 RetornoEpub = RetornoEpub + ('Teste')
-//                             } else {
-//                                 fs.readFile(curPathEpub, 'utf-8', function (err, data) {
-//                                     if (err) {
-//                                         RetornoEpub = RetornoEpub +  (err)
-//                                     } else {
-//                                         RetornoEpub = RetornoEpub +  (data)
-//                                     }
-//                                 })
-//                             }
-//                         })
-//                     }
-//                 })
-//             })
-//         })
-//     })
-//     return callback(RetornoEpub)
-// }
