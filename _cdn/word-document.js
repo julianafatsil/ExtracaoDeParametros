@@ -16,6 +16,9 @@ exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
                             BaseDocument.ReadFileWithXml(__dirname + '/tmp/' + NomeArquivo + '/word/document.xml', (err) => {
                                 parser.parseString(err, (err, result) => {
                                     parsedData = JSON.stringify(result);
+                                    BaseDocument.ExcluirDiretorioComArquivos(__dirname + '/tmp/', err => {
+                                        console.log(err)
+                                    })
                                     return callback(parsedData);
                                 });
                             })
@@ -32,3 +35,4 @@ exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
         }
     })
 }
+

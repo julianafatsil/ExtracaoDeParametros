@@ -7,7 +7,8 @@
     "body-parser": "^1.19.0",
     "docx-extractor": "^1.1.5",
     "express": "^4.16.4",
-    "pdf.js-extract": "^0.1.1"
+    "pdf.js-extract": "^0.1.1",
+    "rimraf": "^2.6.3"
   },
   "devDependencies": {},
   "scripts": {

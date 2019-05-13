@@ -2,6 +2,7 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const unzip = require('unzip');
+const rimraf = require('rimraf')
 
 exports.CopiarArquivoNaPasta = (FileNameHaCopiar, callback) => {
     let NameDocument = path.basename(FileNameHaCopiar)
@@ -63,4 +64,11 @@ exports.ExtrairTodosArquivo = (PastaInicalSerExtraida, callback) => {
         return callback(err)
     })
     return callback(Busca)
+}
+
+exports.ExcluirDiretorioComArquivos = (caminhoDirExcluir, callback) => {
+    rimraf(caminhoDirExcluir, function () {
+
+    })
+    return callback(caminhoDirExcluir)
 }
