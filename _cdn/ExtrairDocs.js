@@ -3,16 +3,15 @@ exports.ExtrairCodigoExtensao = (filename) => {
 }
 
 function ValidarExtensao(extensaoArq) {
-    // AprimoraR COM ARRAY ['', 'DOCX', 'PDF', 'EPUB']  PEGAR INDEX
+    const tiposExtensao = ['', 'DOCX', 'PDF', 'EPUB']
     let codExtensao = 0
-
-    if (extensaoArq == 'DOCX')
-        codExtensao = 1
-    else if (extensaoArq == 'PDF')
-        codExtensao = 2
-    else if (extensaoArq == 'EPUB')
-        codExtensao = 3
-
+    for (let i = 0; i < tiposExtensao.length; i++) {
+        console.log(`${i}: ${tiposExtensao[i]}`)
+        if (tiposExtensao[i] === extensaoArq) {
+            codExtensao = i
+            break
+        }
+    }
     return codExtensao;
 }
 
