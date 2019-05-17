@@ -15,16 +15,25 @@ exports.ExtrairDadosEpubCerto = (FileNameEpub, callback) => {
                                 if (err.indexOf('Error') > 0) {
                                     return callback('Erroooouuuu')
                                 } else {
-                                    // baseDocument.ReadFileWithXml(__dirname + '/tmp/' + NameEpub + '/OEBPS/Styles/TurismoParaCegos.css', err => {
-                                    baseDocument.ReadFileWithXml(__dirname + '/tmp/' + NameEpub + '/OEBPS/Text/TurismoParaCegos-10.xhtml', err => {
-                                        console.log('Retorno' + err)
-                                        return callback({Retorno: err.toString('utf8')})
+                                    let Css
+                                    let Doc
+                                    let Doc2
+                                    baseDocument.ReadFileWithUtf8(__dirname + '/tmp/' + NameEpub + '/OEBPS/Styles/TurismoParaCegos.css', err => {
+                                        // DadosEpub = { Arquivo1: err }
+                                        Css = err
+                                        baseDocument.ReadFileWithUtf8(__dirname + '/tmp/' + NameEpub + '/OEBPS/Text/TurismoParaCegos-10.xhtml', err => {
+                                            // DadosEpub = { Arquivo1: err }
+                                            Doc = err
+                                            baseDocument.ReadFileWithUtf8(__dirname + '/tmp/' + NameEpub + '/OEBPS/Text/TurismoParaCegos-11.xhtml', err => {
+                                                // DadosEpub += { Arquivo2: err }
+                                                Doc2 = err
+                                                baseDocument.ExcluirDiretorioComArquivos(__dirname + '/tmp/', err => {
+                                                    console.log(err)
+                                                })
+                                                return callback({ CSS: Css, Arq1: Doc, Arq2: Doc2 })
+                                            })
+                                        })
                                     })
-                                    // let CaminhoArquivo = ''
-                                    // for (let i = 0; i < err.length - 1; i++) {
-                                    //     CaminhoArquivo = CaminhoArquivo + '--' + err[i]
-                                    // }
-                                    // return callback(CaminhoArquivo)
                                 }
                             })
                         } else {
