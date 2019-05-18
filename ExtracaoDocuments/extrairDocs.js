@@ -6,7 +6,6 @@ function ValidarExtensao(extensaoArq) {
     const tiposExtensao = ['', 'DOCX', 'PDF', 'EPUB']
     let codExtensao = 0
     for (let i = 0; i < tiposExtensao.length; i++) {
-        console.log(`${i}: ${tiposExtensao[i]}`)
         if (tiposExtensao[i] === extensaoArq) {
             codExtensao = i
             break
@@ -20,9 +19,9 @@ exports.NaoEhExtensaoValida = (CodigoExtensao) => {
 }
 
 exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
-    const epubDoc = require('./epub-document')
-    const docxDoc = require('./word-document')
-    const pdfDoc = require('./pdf-document')
+    const epubDoc = require('./epubDocument')
+    const docxDoc = require('./wordDocument')
+    const pdfDoc = require('./pdfDocument')
 
     switch (CodigoDocumento) {
         case 1:

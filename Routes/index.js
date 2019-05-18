@@ -1,17 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const ExtrairDocs = require('../_cdn/ExtrairDocs')
+const extrairDocs = require('../ExtracaoDocuments/extrairDocs')
 
 router.get('/', (req, res) => {
-    let obj = req.query
+    let caminhoArquivo = req.query
 
-    if (!obj.caminhoarq)
+    if (!caminhoArquivo.caminhoarq)
         return res.send({ message: 'Erro: Arquivo não informado' })
-    let codigoArq = ExtrairDocs.ExtrairCodigoExtensao(obj.caminhoarq)
-    if (ExtrairDocs.NaoEhExtensaoValida(codigoArq))
+    let codigoArquivo = extrairDocs.ExtrairCodigoExtensao(caminhoArquivo.caminhoarq)
+    if (extrairDocs.NaoEhExtensaoValida(codigoArquivo))
         return res.send({ message: 'Erro: Arquivo informado com extensão inválida' })
 
-        ExtrairDocs.ExecucaoExtracao(codigoArq, obj.caminhoarq, (err) => {
+    extrairDocs.ExecucaoExtracao(codigoArquivo, caminhoArquivo.caminhoarq, (err) => {
         return res.send(err)
     })
 
