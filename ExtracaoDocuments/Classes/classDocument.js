@@ -1,8 +1,12 @@
 module.exports = {
     caminho: null,
     tipo: null,
+    corDeFundo: null,
+    tamanhoDaFonte: null,
+    tipoDaFonte: null,
     imagens: [{
         seguencia: null,
+        id: null,
         nome: null,
         alt: null,
         title: null,
@@ -10,6 +14,7 @@ module.exports = {
     }],
     tabelas: [{
         seguencia: null,
+        id: null,
         title: null,
         estilo: null,
         altCaption: null,
@@ -17,6 +22,7 @@ module.exports = {
     }],
     videos: [{
         seguencia: null,
+        id: null,
         title: null,
         name: null,
         descr: null,
@@ -25,6 +31,7 @@ module.exports = {
     }],
     graficos: [{
         seguencia: null,
+        id: null,
         legenda: null,
         altTitle: null,
         altDescription: null,
@@ -32,19 +39,24 @@ module.exports = {
     }],
     audios: [{
         seguencia: null,
+        id: null,
         alt: null,
         style: null,
         legenda: null
     }],
-    inserirCabecalho(caminho, tipo) {
+    inserirCabecalho(caminho, tipo, corDeFundo, tamanhoDaFonte, tipoDaFonte) {
         this.caminho = caminho
         this.tipo = tipo
+        this.corDeFundo = corDeFundo,
+        this.tamanhoDaFonte = tamanhoDaFonte,
+        this.tipoDaFonte = tipoDaFonte
     },
-    inserirImagens(seguencia, nome, alt, title, resolucao) {
+    inserirImagens(seguencia, id, nome, alt, title, resolucao) {
         let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.seguencia === seguencia)
         if (TemSeguenciaImagem.length === 0) {
             this.imagens.push({
                 seguencia,
+                id,
                 nome,
                 alt,
                 title,
@@ -52,11 +64,12 @@ module.exports = {
             })
         }
     },
-    inserirTabelas(seguencia, title, estilo, altCaption, altDescription) {
-        let TemSeguenciaTabela = this.tabelas.filter(existeTabela => existeTabela.seguencia === seguencia)
+    inserirTabelas(seguencia, id, title, estilo, altCaption, altDescription) {
+        let TemSeguenciaTabela = this.tabelas.filter(existeTabela => existeTabela.id === id)
         if (TemSeguenciaTabela.length === 0) {
             this.tabelas.push({
                 seguencia,
+                id,
                 title,
                 estilo,
                 altCaption,
@@ -64,11 +77,12 @@ module.exports = {
             })
         }
     },
-    inserirVideos(seguencia, title, name, descr, frame, legenda) {
-        let TemSeguenciaVideo = this.videos.filter(existeVideo => existeVideo.seguencia === seguencia)
+    inserirVideos(seguencia, id, title, name, descr, frame, legenda) {
+        let TemSeguenciaVideo = this.videos.filter(existeVideo => existeVideo.id === id)
         if (TemSeguenciaVideo.length === 0) {
             this.videos.push({
                 seguencia,
+                id,
                 title,
                 name,
                 descr,
@@ -77,11 +91,12 @@ module.exports = {
             })
         }
     },
-    inserirGraficos(seguencia, legenda, altTitle, altDescription, name) {
-        let TemSeguenciaGrafico = this.graficos.filter(existeGrafico => existeGrafico.seguencia === seguencia)
+    inserirGraficos(seguencia, id, legenda, altTitle, altDescription, name) {
+        let TemSeguenciaGrafico = this.graficos.filter(existeGrafico => existeGrafico.id === id)
         if (TemSeguenciaGrafico.length === 0) {
             this.graficos.push({
                 seguencia,
+                id,
                 legenda,
                 altTitle,
                 altDescription,
@@ -89,11 +104,12 @@ module.exports = {
             })
         }
     },
-    inserirAudios(seguencia, alt, style, legenda) {
+    inserirAudios(seguencia, id, alt, style, legenda) {
         let TemSeguenciaAudio = this.audios.filter(existeAudio => existeAudio.style === style)
         if (TemSeguenciaAudio.length === 0) {
             this.audios.push({
                 seguencia,
+                id,
                 alt,
                 style,
                 legenda

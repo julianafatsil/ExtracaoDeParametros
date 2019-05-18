@@ -1,27 +1,23 @@
-const fs = require('fs');
-const fse = require('fs-extra');
-const path = require('path');
-const unzip = require('unzip');
-const rimraf = require('rimraf')
+const imports = require('./imports')
 
 exports.CopiarArquivoNaPasta = (FileNameHaCopiar, callback) => {
-    let NameDocument = path.basename(FileNameHaCopiar)
+    let NameDocument = imports.path.basename(FileNameHaCopiar)
     let LocalHaColar = __dirname + '/tmp/' + NameDocument
-    fse.copy(FileNameHaCopiar, LocalHaColar, function (err) {
+    imports.fse.copy(FileNameHaCopiar, LocalHaColar, function (err) {
         return callback(err || 'Copiou')
     })
 }
 
 exports.RenameArchiveForZip = (FilenameForRenameZip, FileNameZip, callback) => {
-    fs.rename(__dirname + '/tmp/' + FilenameForRenameZip, __dirname + '/tmp/' + FileNameZip, function (err) {
+    imports.fs.rename(__dirname + '/tmp/' + FilenameForRenameZip, __dirname + '/tmp/' + FileNameZip, function (err) {
         return callback(err || 'Zipou')
     })
 }
 
 exports.ExtractionFileZip = (FilenameZipForExtraction, NameArchive, callback) => {
     let Directory = __dirname + '/tmp/'
-    fs.createReadStream(Directory + FilenameZipForExtraction).pipe(unzip.Extract({ path: Directory + NameArchive })).on('close', function () {
-        if (fs.lstatSync(Directory + NameArchive).isDirectory()) {
+    imports.fs.createReadStream(Directory + FilenameZipForExtraction).pipe(imports.unzip.Extract({ path: Directory + NameArchive })).on('close', function () {
+        if (imports.fs.lstatSync(Directory + NameArchive).isDirectory()) {
             return callback('Extraiu')
         } else {
             return callback('Não Extraiu')
@@ -30,7 +26,7 @@ exports.ExtractionFileZip = (FilenameZipForExtraction, NameArchive, callback) =>
 }
 
 exports.ReadDirectory = (FileDirectory, callback) => {
-    fs.readdir(__dirname + '/tmp/' + FileDirectory, (err, ArchiveDirectory) => {
+    imports.fs.readdir(__dirname + '/tmp/' + FileDirectory, (err, ArchiveDirectory) => {
         if (err) {
             return callback(`Erro, não foi possivel ler os arquivos da pasta: ${FileDirectory} - ${err}`)
         } else {
@@ -40,19 +36,19 @@ exports.ReadDirectory = (FileDirectory, callback) => {
 }
 
 exports.ReadFileWithUtf8 = (FileForRead, callback) => {
-    fs.readFile(FileForRead, 'utf-8', (err, data) => {
+    imports.fs.readFile(FileForRead, 'utf-8', (err, data) => {
         return callback(err || data)
     })
 }
 
 exports.ReadFileWithXml = (DocumentoXmlParaLeitura, callback) => {
-    fs.readFile(DocumentoXmlParaLeitura, (err, data) => {
+    imports.fs.readFile(DocumentoXmlParaLeitura, (err, data) => {
         return callback(err || data)
     })
 }
 
 exports.ConferirEhDiretorio = (ArquivoPastaConferir, callback) => {
-    if (fs.lstat(ArquivoPastaConferir).isDirectory()) {
+    if (imports.fs.lstat(ArquivoPastaConferir).isDirectory()) {
         return callback('Diretorio')
     } else {
         return callback('Arquivo')
@@ -67,8 +63,43 @@ exports.ExtrairTodosArquivo = (PastaInicalSerExtraida, callback) => {
 }
 
 exports.ExcluirDiretorioComArquivos = (caminhoDirExcluir, callback) => {
-    rimraf(caminhoDirExcluir, function () {
+    imports.rimraf(caminhoDirExcluir, function () {
 
     })
     return callback(caminhoDirExcluir)
 }
+
+exports.copiarRenomearExtrairArquivo = (caminhoDoArquivo, nomeDoArquivo, nomeDoArquivoZip, callback) => {
+    this.CopiarArquivoNaPasta(caminhoDoArquivo, (err) => {
+        if (err === 'Copiou') {
+            this.RenameArchiveForZip(nomeDoArquivo, nomeDoArquivoZip, (err) => {
+                if (err === 'Zipou') {
+                    this.ExtractionFileZip(nomeDoArquivoZip, nomeDoArquivo, (err) => {
+                        if (err === 'Extraiu') {
+                            return callback(true)
+                        } else {
+                            imports.classErros.inserirErros(
+                                3,
+                                'Não foi possivel extrair o documento.'
+                            )
+                            return callback(false)
+                        }
+                    })
+                } else {
+                    imports.classErros.inserirErros(
+                        2,
+                        'Não foi possivel zipar o documento.'
+                    )
+                    return callback(false)
+                }
+            })
+        } else {
+            imports.classErros.inserirErros(
+                1,
+                'Não foi possivel copiar o documento.'
+            )
+            return callback(false)
+        }
+    })
+}
+
