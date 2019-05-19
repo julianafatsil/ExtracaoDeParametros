@@ -1,6 +1,16 @@
 const imports = require('../imports')
 
 exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
+    if (imports.pointer.has(RecebeJson, '/w:document/w:background/0/$/w:color')) {
+        imports.classDocument.inserirCabecalho(
+            'Caminho Tal',
+            'docx',
+            imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:color'),
+            imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeColor'),
+            imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeShade')
+        )
+    }
+
     let TotalLinhasWP = imports.pointer.get(RecebeJson, '/w:document/w:body/0/w:p').length
     for (let i = 0; i < TotalLinhasWP; i++) {
         try {

@@ -2,6 +2,8 @@ module.exports = {
     caminho: null,
     tipo: null,
     corDeFundo: null,
+    themeColor: null,
+    themeShade: null,
     tamanhoDaFonte: null,
     tipoDaFonte: null,
     imagens: [{
@@ -44,15 +46,17 @@ module.exports = {
         style: null,
         legenda: null
     }],
-    inserirCabecalho(caminho, tipo, corDeFundo, tamanhoDaFonte, tipoDaFonte) {
+    inserirCabecalho(caminho, tipo, corDeFundo, themeColor, themeShade, tamanhoDaFonte, tipoDaFonte) {
         this.caminho = caminho
         this.tipo = tipo
         this.corDeFundo = corDeFundo,
+        this.themeColor = themeColor,
+        this.themeShade = themeShade,
         this.tamanhoDaFonte = tamanhoDaFonte,
         this.tipoDaFonte = tipoDaFonte
     },
     inserirImagens(seguencia, id, nome, alt, title, resolucao) {
-        let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.seguencia === seguencia)
+        let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.id === id)
         if (TemSeguenciaImagem.length === 0) {
             this.imagens.push({
                 seguencia,
