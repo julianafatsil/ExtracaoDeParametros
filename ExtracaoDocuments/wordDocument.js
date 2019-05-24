@@ -7,29 +7,37 @@ exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
     const arquivoTempJson = `${pastaTemporaria}temp.json`
     const wordDocument = `${pastaTemporaria}${nomeArquivo}/word/document.xml`
 
-    imports.baseDocument.copiarRenomearExtrairArquivo(CaminhoArqWord, nomeArquivo, nomeArquivoZip, pastaTemporaria, retorno => {
-        imports.baseDocument.ExcluirDiretorioComArquivos(pastaTemporaria, err => { })
+    // imports.baseDocument.copiarRenomearExtrairArquivo(CaminhoArqWord, nomeArquivo, nomeArquivoZip, pastaTemporaria, retorno => {
 
-        if (retorno) {
-            imports.baseDocument.ReadFileWithXml(wordDocument, (err) => {
-                imports.parser.parseString(err, (err, result) => {
-                    parsedData = JSON.stringify(result)
 
-                    imports.jsonfile.writeFile(arquivoTempJson, parsedData, function (err) {
-                        imports.jsonfile.readFile(arquivoTempJson, function (err, obj) {
+    imports.baseDocument.CopiarArquivoNaPasta(CaminhoArqWord, (err) => {
+        if (err == 'Copiou') {
+            imports.baseDocument.RenameArchiveForZip(nomeArquivo, nomeArquivoZip, (err) => {
+                if (err == 'Zipou') {
+                    imports.baseDocument.ExtractionFileZip(nomeArquivoZip, nomeArquivo, (err) => {
+                        if (err == 'Extraiu') {
+                            imports.baseDocument.ExcluirDiretorioComArquivos(pastaTemporaria, err => { })
 
-                            const jsonData = JSON.parse(obj)
-                            
-                            imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
+                            imports.baseDocument.ReadFileWithXml(wordDocument, (err) => {
+                                imports.parser.parseString(err, (err, result) => {
+                                    parsedData = JSON.stringify(result)
 
-                            return callback(imports.classDocument)
-                        })
+                                    imports.jsonfile.writeFile(arquivoTempJson, parsedData, function (err) {
+                                        imports.jsonfile.readFile(arquivoTempJson, function (err, obj) {
+
+                                            const jsonData = JSON.parse(obj)
+
+                                            imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
+
+                                            return callback(imports.classDocument)
+                                        })
+                                    })
+                                })
+                            })
+                        }
                     })
-                });
+                }
             })
-        } else {
-            return callback(imports.classErros)
         }
     })
 }
-
