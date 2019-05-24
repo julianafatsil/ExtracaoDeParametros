@@ -4,7 +4,7 @@ exports.ExtrairTabelas = (RecebeJson) => {
     let CaminhoXmlAteHaTabela = '/w:document/w:body/0/w:tbl'
 
     let TotalLinhasTbl = imports.pointer.get(RecebeJson, CaminhoXmlAteHaTabela).length
-    console.log(TotalLinhasTbl)
+    //console.log(TotalLinhasTbl)
     for (let i = 0; i < TotalLinhasTbl; i++) {
         try {
             if (imports.pointer.get(RecebeJson, `${CaminhoXmlAteHaTabela}/${i}/w:tblPr/0/w:tblStyle/0/$/w:val`).length > 0) {

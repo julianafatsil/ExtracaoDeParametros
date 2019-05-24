@@ -6,6 +6,15 @@ module.exports = {
     themeShade: null,
     tamanhoDaFonte: null,
     tipoDaFonte: null,
+    textos: [{
+        seguencia: null,
+        id: null,
+        texto: null,
+        qtdCaracteres: null,
+        cor: null,
+        tamanhoDaFonte: null,
+        tipoDaFonte: null
+    }],
     imagens: [{
         seguencia: null,
         id: null,
@@ -50,10 +59,24 @@ module.exports = {
         this.caminho = caminho
         this.tipo = tipo
         this.corDeFundo = corDeFundo,
-        this.themeColor = themeColor,
-        this.themeShade = themeShade,
-        this.tamanhoDaFonte = tamanhoDaFonte,
-        this.tipoDaFonte = tipoDaFonte
+            this.themeColor = themeColor,
+            this.themeShade = themeShade,
+            this.tamanhoDaFonte = tamanhoDaFonte,
+            this.tipoDaFonte = tipoDaFonte
+    },
+    inserirTextos(seguencia, id, texto, qtdCaracteres, cor, tamanhoDaFonte, tipoDaFonte) {
+        let TemSeguenciaTexto = this.textos.filter(existeTexto => existeTexto.id === id)
+        if (TemSeguenciaTexto.length === 0) {
+            this.textos.push({
+                seguencia,
+                id,
+                texto,
+                qtdCaracteres,
+                cor,
+                tamanhoDaFonte,
+                tipoDaFonte
+            })
+        }
     },
     inserirImagens(seguencia, id, nome, alt, title, resolucao) {
         let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.id === id)

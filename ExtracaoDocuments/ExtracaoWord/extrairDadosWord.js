@@ -27,6 +27,8 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
                     imports.extrairGraficosWord.ExtrairGraficos(RecebeJson, i, j)
 
                     imports.extrairAudiosWord.ExtrairAudios(RecebeJson, i, j)
+
+                    imports.extrairTextosWord.ExtrairTextos(RecebeJson, i, j)
                 }
             }
         } catch (e) { }

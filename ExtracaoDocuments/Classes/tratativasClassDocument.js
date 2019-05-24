@@ -1,9 +1,13 @@
 module.exports = {
+    seguenciaTextos: 0,
     seguenciaImagens: 0,
     seguenciaTabelas: 0,
     seguenciaVideos: 0,
     seguenciaGraficos: 0,
     seguenciaAudios: 0,  
+    incrementaSeguenciaTextos() {
+        this.seguenciaTextos++
+    },
     incrementaSeguenciaImagens() {
         this.seguenciaImagens++
     },
