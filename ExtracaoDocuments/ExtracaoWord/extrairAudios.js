@@ -12,9 +12,9 @@ exports.ExtrairAudios = (RecebeJson, PosicaoI, PosicaoJ) => {
                 }
             }
         }
-        imports.tratativaClass.incrementaSeguenciaAudios()
+        imports.tratativaClass.incrementaSeguenciaMidias()
         imports.classDocument.inserirAudios(
-            imports.tratativaClass.seguenciaAudios,
+            imports.tratativaClass.seguenciaMidias,
             null,
             RecebeDadosAudios.$.alt,
             RecebeDadosAudios.$.style,

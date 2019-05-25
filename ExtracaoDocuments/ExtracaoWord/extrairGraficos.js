@@ -12,9 +12,9 @@ exports.ExtrairGraficos = (RecebeJson, PosicaoI, PosicaoJ) => {
                 }
             }
         }
-        imports.tratativaClass.incrementaSeguenciaGraficos()
+        imports.tratativaClass.incrementaSeguenciaMidias()
         imports.classDocument.inserirGraficos(
-            imports.tratativaClass.seguenciaGraficos,
+            imports.tratativaClass.seguenciaMidias,
             RecebeDadosGraficos.$.id,
             RecebeDadosGraficosLegenda,
             RecebeDadosGraficos.$.title,

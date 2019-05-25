@@ -13,9 +13,9 @@ exports.ExtrairTabelas = (RecebeJson) => {
                 let altTabela = imports.pointer.get(RecebeJson, `${CaminhoXmlAteHaTabela}/${i}/w:tblPr/0/w:tblCaption/0/$/w:val`)
                 let descricaoTabela = imports.pointer.get(RecebeJson, `${CaminhoXmlAteHaTabela}/${i}/w:tblPr/0/w:tblDescription/0/$/w:val`)
 
-                imports.tratativaClass.incrementaSeguenciaTabelas()
+                imports.tratativaClass.incrementaSeguenciaMidias()
                 imports.classDocument.inserirTabelas(
-                    imports.tratativaClass.seguenciaTabelas,
+                    imports.tratativaClass.seguenciaMidias,
                     'Title',
                     estiloTabela,
                     altTabela,

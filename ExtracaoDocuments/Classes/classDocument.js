@@ -4,141 +4,144 @@ module.exports = {
     corDeFundo: null,
     themeColor: null,
     themeShade: null,
-    tamanhoDaFonte: null,
-    tipoDaFonte: null,
     textos: [{
         seguencia: null,
-        id: null,
-        texto: null,
-        qtdCaracteres: null,
-        cor: null,
+        idLinha: null,
+        textoLinha: null,
+        qtdCaracteresLinha: null,
+        corDaFonte: null,
         tamanhoDaFonte: null,
-        tipoDaFonte: null
+        tipoDaFonte: null,
+        corDeFundo: null,
+        titulo: null,
+        alinhamentoTexto: null
     }],
     imagens: [{
         seguencia: null,
-        id: null,
+        idImagem: null,
         nome: null,
-        alt: null,
-        title: null,
-        resolucao: null
+        tituloAlt: null,
+        descricaoAlt: null,
+        legenda: null
     }],
     tabelas: [{
         seguencia: null,
-        id: null,
-        title: null,
+        idTabela: null,
         estilo: null,
-        altCaption: null,
-        altDescription: null
+        tituloAlt: null,
+        descricaoAlt: null,
+        legenda: null
     }],
     videos: [{
         seguencia: null,
-        id: null,
-        title: null,
-        name: null,
-        descr: null,
-        frame: null,
+        idVideo: null,
+        tituloAlt: null,
+        descricaoAlt: null,
+        nome: null,
+        linkVideo: null,
         legenda: null
     }],
     graficos: [{
         seguencia: null,
-        id: null,
-        legenda: null,
-        altTitle: null,
-        altDescription: null,
-        name: null
+        idGrafico: null,
+        estilo: null,
+        tituloAlt: null,
+        descricaoAlt: null,
+        nome: null,
+        legenda: null
     }],
     audios: [{
         seguencia: null,
-        id: null,
-        alt: null,
-        style: null,
+        idAudio: null,
+        descricaoCompleta: null,
         legenda: null
     }],
-    inserirCabecalho(caminho, tipo, corDeFundo, themeColor, themeShade, tamanhoDaFonte, tipoDaFonte) {
+    inserirDadosDocumento(caminho, tipo, corDeFundo, themeColor, themeShade) {
         this.caminho = caminho
         this.tipo = tipo
         this.corDeFundo = corDeFundo,
             this.themeColor = themeColor,
-            this.themeShade = themeShade,
-            this.tamanhoDaFonte = tamanhoDaFonte,
-            this.tipoDaFonte = tipoDaFonte
+            this.themeShade = themeShade
     },
-    inserirTextos(seguencia, id, texto, qtdCaracteres, cor, tamanhoDaFonte, tipoDaFonte) {
-        let TemSeguenciaTexto = this.textos.filter(existeTexto => existeTexto.id === id)
+    inserirTextos(seguencia, idLinha, textoLinha, qtdCaracteresLinha, corDaFonte,
+        tamanhoDaFonte, tipoDaFonte, corDeFundo, titulo, alinhamentoTexto) {
+        let TemSeguenciaTexto = this.textos.filter(existeTexto => existeTexto.idLinha === idLinha)
         if (TemSeguenciaTexto.length === 0) {
             this.textos.push({
                 seguencia,
-                id,
-                texto,
-                qtdCaracteres,
-                cor,
+                idLinha,
+                textoLinha,
+                qtdCaracteresLinha,
+                corDaFonte,
                 tamanhoDaFonte,
-                tipoDaFonte
+                tipoDaFonte,
+                corDeFundo,
+                titulo,
+                alinhamentoTexto
             })
         }
     },
-    inserirImagens(seguencia, id, nome, alt, title, resolucao) {
-        let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.id === id)
+    inserirImagens(seguencia, idImagem, nome, tituloAlt, descricaoAlt, legenda) {
+        let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.idImagem === idImagem)
         if (TemSeguenciaImagem.length === 0) {
             this.imagens.push({
                 seguencia,
-                id,
+                idImagem,
                 nome,
-                alt,
-                title,
-                resolucao
-            })
-        }
-    },
-    inserirTabelas(seguencia, id, title, estilo, altCaption, altDescription) {
-        let TemSeguenciaTabela = this.tabelas.filter(existeTabela => existeTabela.id === id)
-        if (TemSeguenciaTabela.length === 0) {
-            this.tabelas.push({
-                seguencia,
-                id,
-                title,
-                estilo,
-                altCaption,
-                altDescription
-            })
-        }
-    },
-    inserirVideos(seguencia, id, title, name, descr, frame, legenda) {
-        let TemSeguenciaVideo = this.videos.filter(existeVideo => existeVideo.id === id)
-        if (TemSeguenciaVideo.length === 0) {
-            this.videos.push({
-                seguencia,
-                id,
-                title,
-                name,
-                descr,
-                frame,
+                tituloAlt,
+                descricaoAlt,
                 legenda
             })
         }
     },
-    inserirGraficos(seguencia, id, legenda, altTitle, altDescription, name) {
-        let TemSeguenciaGrafico = this.graficos.filter(existeGrafico => existeGrafico.id === id)
-        if (TemSeguenciaGrafico.length === 0) {
-            this.graficos.push({
+    inserirTabelas(seguencia, idTabela, estilo, tituloAlt, descricaoAlt, legenda) {
+        let TemSeguenciaTabela = this.tabelas.filter(existeTabela => existeTabela.idTabela === idTabela)
+        if (TemSeguenciaTabela.length === 0) {
+            this.tabelas.push({
                 seguencia,
-                id,
-                legenda,
-                altTitle,
-                altDescription,
-                name
+                idTabela,
+                estilo,
+                tituloAlt,
+                descricaoAlt,
+                legenda
             })
         }
     },
-    inserirAudios(seguencia, id, alt, style, legenda) {
-        let TemSeguenciaAudio = this.audios.filter(existeAudio => existeAudio.style === style)
+    inserirVideos(seguencia, idVideo, tituloAlt, descricaoAlt, nome, linkVideo, legenda) {
+        let TemSeguenciaVideo = this.videos.filter(existeVideo => existeVideo.idVideo === idVideo)
+        if (TemSeguenciaVideo.length === 0) {
+            this.videos.push({
+                seguencia,
+                idVideo,
+                tituloAlt,
+                descricaoAlt,
+                nome,
+                linkVideo,
+                legenda
+            })
+        }
+    },
+    inserirGraficos(seguencia, idGrafico, estilo, tituloAlt, descricaoAlt, nome, legenda) {
+        let TemSeguenciaGrafico = this.graficos.filter(existeGrafico => existeGrafico.idGrafico === idGrafico)
+        if (TemSeguenciaGrafico.length === 0) {
+            this.graficos.push({
+                seguencia,
+                idGrafico,
+                estilo,
+                tituloAlt,
+                descricaoAlt,
+                nome,
+                legenda
+            })
+        }
+    },
+    inserirAudios(seguencia, idAudio, descricaoCompleta, legenda) {
+        let TemSeguenciaAudio = this.audios.filter(existeAudio => existeAudio.idAudio === idAudio)
         if (TemSeguenciaAudio.length === 0) {
             this.audios.push({
                 seguencia,
-                id,
-                alt,
-                style,
+                idAudio,
+                descricaoCompleta,
                 legenda
             })
         }

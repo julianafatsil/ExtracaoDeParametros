@@ -14,9 +14,9 @@ exports.ExtrairVideos = (RecebeJson, PosicaoI, PosicaoJ) => {
                 }
             }
         }
-        imports.tratativaClass.incrementaSeguenciaVideos()
+        imports.tratativaClass.incrementaSeguenciaMidias()
         imports.classDocument.inserirVideos(
-            imports.tratativaClass.seguenciaVideos,
+            imports.tratativaClass.seguenciaMidias,
             RecebeDadosVideo.$.id,
             RecebeDadosVideo.$.title,
             RecebeDadosVideo.$.name,

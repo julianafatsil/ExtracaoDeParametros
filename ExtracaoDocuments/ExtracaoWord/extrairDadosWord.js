@@ -1,15 +1,15 @@
 const imports = require('../imports')
 
 exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
-    if (imports.pointer.has(RecebeJson, '/w:document/w:background/0/$/w:color')) {
-        imports.classDocument.inserirCabecalho(
-            'Caminho Tal',
-            'docx',
-            imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:color'),
-            imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeColor'),
-            imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeShade')
-        )
-    }
+    // if (imports.pointer.has(RecebeJson, '/w:document/w:background/0/$/w:color')) {
+    //     imports.classDocument.inserirDadosDocumento(
+    //         'Caminho Tal',
+    //         'docx',
+    //         imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:color'),
+    //         imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeColor'),
+    //         imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeShade')
+    //     )
+    // }
 
     let TotalLinhasWP = imports.pointer.get(RecebeJson, '/w:document/w:body/0/w:p').length
     for (let i = 0; i < TotalLinhasWP; i++) {
@@ -18,7 +18,7 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
             if (TotalLinhasWR > 0) {
                 for (let j = 0; j < TotalLinhasWR; j++) {
                     //console.log(`${i} - ${j}`)
-                    //console.log(pointer.get(RecebeJson, '/w:document/w:body/0/w:p/' + i + '/w:r/' + j))
+                    //console.log(imports.pointer.get(RecebeJson, '/w:document/w:body/0/w:p/' + i + '/w:r/' + j))
 
                     imports.extrairImagensWord.ExtrairImagens(RecebeJson, i, j)
 
@@ -33,5 +33,5 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
             }
         } catch (e) { }
     }
-    imports.extrairTabelasWord.ExtrairTabelas(RecebeJson)
+    //imports.extrairTabelasWord.ExtrairTabelas(RecebeJson)
 }
