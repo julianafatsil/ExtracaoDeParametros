@@ -20,18 +20,18 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
                     //console.log(`${i} - ${j}`)
                     //console.log(imports.pointer.get(RecebeJson, '/w:document/w:body/0/w:p/' + i + '/w:r/' + j))
 
-                    imports.extrairImagensWord.ExtrairImagens(RecebeJson, i, j)
+                    // imports.extrairImagensWord.ExtrairImagens(RecebeJson, i, j)
 
-                    imports.extrairVideosWord.ExtrairVideos(RecebeJson, i, j)
+                    // imports.extrairVideosWord.ExtrairVideos(RecebeJson, i, j)
 
-                    imports.extrairGraficosWord.ExtrairGraficos(RecebeJson, i, j)
+                    // imports.extrairGraficosWord.ExtrairGraficos(RecebeJson, i, j)
 
-                    imports.extrairAudiosWord.ExtrairAudios(RecebeJson, i, j)
+                    // imports.extrairAudiosWord.ExtrairAudios(RecebeJson, i, j)
 
                     imports.extrairTextosWord.ExtrairTextos(RecebeJson, i, j)
                 }
             }
         } catch (e) { }
     }
-    //imports.extrairTabelasWord.ExtrairTabelas(RecebeJson)
+    // imports.extrairTabelasWord.ExtrairTabelas(RecebeJson)
 }

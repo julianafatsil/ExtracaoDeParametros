@@ -1,3 +1,5 @@
+imports = require('./imports')
+
 exports.ExtrairCodigoExtensao = (filename) => {
     return ValidarExtensao(filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2).toUpperCase());
 }
@@ -22,7 +24,8 @@ exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
     const epubDoc = require('./epubDocument')
     const docxDoc = require('./wordDocument')
     const pdfDoc = require('./pdfDocument')
-
+    
+    imports.tratativaClass.removerNulos()
     switch (CodigoDocumento) {
         case 1:
             docxDoc.ExtrairDadosDocx(CaminhArquivo, (err) => {

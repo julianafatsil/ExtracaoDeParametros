@@ -65,8 +65,6 @@ module.exports = {
     },
     inserirTextos(seguencia, idLinha, textoLinha, qtdCaracteresLinha, corDaFonte,
         tamanhoDaFonte, tipoDaFonte, corDeFundo, titulo, alinhamentoTexto) {
-        let TemSeguenciaTexto = this.textos.filter(existeTexto => existeTexto.idLinha === idLinha)
-        if (TemSeguenciaTexto.length === 0) {
             this.textos.push({
                 seguencia,
                 idLinha,
@@ -79,7 +77,6 @@ module.exports = {
                 titulo,
                 alinhamentoTexto
             })
-        }
     },
     inserirImagens(seguencia, idImagem, nome, tituloAlt, descricaoAlt, legenda) {
         let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.idImagem === idImagem)
@@ -95,17 +92,14 @@ module.exports = {
         }
     },
     inserirTabelas(seguencia, idTabela, estilo, tituloAlt, descricaoAlt, legenda) {
-        let TemSeguenciaTabela = this.tabelas.filter(existeTabela => existeTabela.idTabela === idTabela)
-        if (TemSeguenciaTabela.length === 0) {
-            this.tabelas.push({
-                seguencia,
-                idTabela,
-                estilo,
-                tituloAlt,
-                descricaoAlt,
-                legenda
-            })
-        }
+        this.tabelas.push({
+            seguencia,
+            idTabela,
+            estilo,
+            tituloAlt,
+            descricaoAlt,
+            legenda
+        })
     },
     inserirVideos(seguencia, idVideo, tituloAlt, descricaoAlt, nome, linkVideo, legenda) {
         let TemSeguenciaVideo = this.videos.filter(existeVideo => existeVideo.idVideo === idVideo)
