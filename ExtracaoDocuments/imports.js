@@ -17,6 +17,7 @@ exports.baseDocument = require('./baseDocument')
 exports.classDocument = require('./Classes/classDocument')
 exports.tratativaClass = require('./Classes/tratativasClassDocument')
 exports.classErros = require('./Classes/classErros')
+exports.classStyle = require('./Classes/classStyle')
 
 exports.extrairDadosWord = require('./ExtracaoWord/extrairDadosWord')
 exports.extrairTabelasWord = require('./ExtracaoWord/extrairTabelas')
