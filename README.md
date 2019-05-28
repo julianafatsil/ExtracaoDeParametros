@@ -11,3 +11,4 @@ Após realizar o clone, instale as seguintes módulos:
     4- npm install body-parser --save
     5- npm install rimraf --save
     6- No terminal, dentro da pasta do projeto, usar o comando node server.js
+    7- http://localhost:3001/?caminhoarq=/informeocaminhodoarquivoaqui 
