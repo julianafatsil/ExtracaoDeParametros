@@ -1,7 +1,8 @@
-exports.fs = require('fs');
-exports.fse = require('fs-extra');
-exports.unzip = require('unzip');
+exports.fs = require('fs')
+exports.fse = require('fs-extra')
+exports.unzip = require('unzip')
 exports.rimraf = require('rimraf')
+exports.cheerio = require('cheerio')
 
 exports.path = require('path')
 
@@ -27,3 +28,5 @@ exports.extrairGraficosWord = require('./ExtracaoWord/extrairGraficos')
 exports.extrairAudiosWord = require('./ExtracaoWord/extrairAudios')
 exports.extrairTextosWord = require('./ExtracaoWord/extrairTextos')
 exports.baseWord = require('./ExtracaoWord/baseWord')
+
+exports.baseEpub = require('./extracaoEpub/baseEpub')

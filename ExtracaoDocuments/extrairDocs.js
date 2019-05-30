@@ -24,27 +24,22 @@ exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
     const epubDoc = require('./epubDocument')
     const docxDoc = require('./wordDocument')
     const pdfDoc = require('./pdfDocument')
-    
+
     imports.tratativaClass.removerNulos()
     switch (CodigoDocumento) {
         case 1:
-            docxDoc.ExtrairDadosDocx(CaminhArquivo, (err) => {
-                return callback(err);
+            docxDoc.ExtrairDadosDocx(CaminhArquivo, (retorno) => {
+                return callback(retorno);
             })
             break;
         case 2:
-            pdfDoc.ExtrairDadosPdf(CaminhArquivo, (err) => {
-                return callback(err)
+            pdfDoc.ExtrairDadosPdf(CaminhArquivo, (retorno) => {
+                return callback(retorno)
             })
             break;
         case 3:
-            epubDoc.ExtrairDadosEpubCerto(CaminhArquivo, (err, data) => {
-                console.log(err || data)
-                if (data) {
-                    return callback(data)
-                } else {
-                    return callback(err)
-                }
+            epubDoc.ExtrairDadosEpub(CaminhArquivo, (retorno) => {
+                return callback(retorno)
             })
             break;
     }

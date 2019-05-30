@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
     "docx-extractor": "^1.1.5",
     "express": "^4.16.4",
     "json-pointer": "^0.6.0",
