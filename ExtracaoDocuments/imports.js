@@ -21,6 +21,7 @@ exports.classErros = require('./Classes/classErros')
 exports.classStyle = require('./Classes/classStyle')
 
 exports.extrairDadosWord = require('./ExtracaoWord/extrairDadosWord')
+exports.extrairCabecalho = require('./ExtracaoWord/extrairCabecalho')
 exports.extrairTabelasWord = require('./ExtracaoWord/extrairTabelas')
 exports.extrairImagensWord = require('./ExtracaoWord/extrairImagens')
 exports.extrairVideosWord = require('./ExtracaoWord/extrairVideos')

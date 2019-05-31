@@ -65,18 +65,18 @@ module.exports = {
     },
     inserirTextos(seguencia, idLinha, textoLinha, qtdCaracteresLinha, corDaFonte,
         tamanhoDaFonte, tipoDaFonte, corDeFundo, titulo, alinhamentoTexto) {
-            this.textos.push({
-                seguencia,
-                idLinha,
-                textoLinha,
-                qtdCaracteresLinha,
-                corDaFonte,
-                tamanhoDaFonte,
-                tipoDaFonte,
-                corDeFundo,
-                titulo,
-                alinhamentoTexto
-            })
+        this.textos.push({
+            seguencia,
+            idLinha,
+            textoLinha,
+            qtdCaracteresLinha,
+            corDaFonte,
+            tamanhoDaFonte,
+            tipoDaFonte,
+            corDeFundo,
+            titulo,
+            alinhamentoTexto
+        })
     },
     inserirImagens(seguencia, idImagem, nome, tituloAlt, descricaoAlt, legenda) {
         let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.idImagem === idImagem)

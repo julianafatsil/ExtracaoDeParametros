@@ -4,7 +4,7 @@ exports.ExtrairTextos = (RecebeJson, PosicaoI, PosicaoJ) => {
     let caminhoTextoWr = `/w:document/w:body/0/w:p/${PosicaoI}/w:r/${PosicaoJ}/`
     let caminhoTextoWpr = `/w:document/w:body/0/w:p/${PosicaoI}/w:pPr/0/`
 
-    if (imports.pointer.get(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`).toUpperCase() !== 'LEGENDA') {
+    if (imports.baseWord.ehTexto(RecebeJson, caminhoTextoWpr, caminhoTextoWr)) {
         let RecebeDadosTexto = imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:t/0`)
         imports.baseWord.extrairQtdCaracteres(RecebeDadosTexto)
         if (imports.baseWord.qtdCaracteres > 0) {

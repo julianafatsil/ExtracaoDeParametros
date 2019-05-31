@@ -9,7 +9,6 @@ exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
 
     // imports.baseDocument.copiarRenomearExtrairArquivo(CaminhoArqWord, nomeArquivo, nomeArquivoZip, pastaTemporaria, retorno => {
 
-
     imports.baseDocument.CopiarArquivoNaPasta(CaminhoArqWord, (err) => {
         if (err == 'Copiou') {
             imports.baseDocument.RenameArchiveForZip(nomeArquivo, nomeArquivoZip, (err) => {
