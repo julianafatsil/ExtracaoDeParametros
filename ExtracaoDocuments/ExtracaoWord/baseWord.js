@@ -34,5 +34,9 @@ module.exports = {
     ehImagem(RecebeJson, caminhoImagem) {
         return ((imports.pointer.has(RecebeJson, `${caminhoImagem}/a:graphic/0/a:graphicData/0/pic:pic/0`))
             && (!imports.pointer.has(RecebeJson, `${caminhoImagem}/wp:docPr/0/a:hlinkClick/0`)))
+    },
+    ehGrafico(RecebeJson, PosicaoI, PosicaoJ) {
+        return ((imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:p/${PosicaoI}/w:r/${PosicaoJ}/w:drawing/0/wp:inline/0/wp:cNvGraphicFramePr`)) &&
+            (!imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:p/${PosicaoI}/w:r/${PosicaoJ}/w:drawing/0/wp:inline/0/a:graphic/0/a:graphicData/0/pic:pic/0`)))
     }
 }

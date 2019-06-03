@@ -22,7 +22,7 @@ exports.ExtrairTextos = (RecebeJson, PosicaoI, PosicaoJ) => {
             if (imports.pointer.has(RecebeJson, `${caminhoTextoWr}w:rPr/0/w:rFonts/0/$/w:hAnsi`))
                 tipoDaFonte = imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:rPr/0/w:rFonts/0/$/w:hAnsi`)
             if (imports.pointer.has(RecebeJson, `${caminhoTextoWr}w:rPr/0/w:highlight/0/$/w:val`))
-                corDeFundo = imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:rPr/0/0/w:highlight/0/$/w:val`)
+                corDeFundo = imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:rPr/0/w:highlight/0/$/w:val`)
             if (imports.pointer.has(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`))
                 titulo = imports.pointer.get(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`)
             if (imports.pointer.has(RecebeJson, `${caminhoTextoWpr}w:jc/0/$/w:val`))
