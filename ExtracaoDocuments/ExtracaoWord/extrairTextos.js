@@ -6,8 +6,8 @@ exports.ExtrairTextos = (RecebeJson, PosicaoI, PosicaoJ) => {
 
     if (imports.baseWord.ehTexto(RecebeJson, caminhoTextoWpr, caminhoTextoWr)) {
         let RecebeDadosTexto = imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:t/0`)
-        imports.baseWord.extrairQtdCaracteres(RecebeDadosTexto)
-        if (imports.baseWord.qtdCaracteres > 0) {
+        imports.tratativaClass.extrairQtdCaracteres(RecebeDadosTexto)
+        if (imports.tratativaClass.qtdCaracteres > 0) {
             let corDaFonte = '000000'
             let tamanhoDaFonte = 11
             let tipoDaFonte = 'Calibri (Corpo)'
@@ -34,7 +34,7 @@ exports.ExtrairTextos = (RecebeJson, PosicaoI, PosicaoJ) => {
                 imports.tratativaClass.seguenciaMidias,
                 imports.tratativaClass.seguenciaMidias,
                 RecebeDadosTexto,
-                imports.baseWord.qtdCaracteres,
+                imports.tratativaClass.qtdCaracteres,
                 corDaFonte,
                 tamanhoDaFonte,
                 tipoDaFonte,

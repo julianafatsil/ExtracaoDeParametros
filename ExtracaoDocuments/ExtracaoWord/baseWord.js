@@ -2,7 +2,6 @@ const imports = require('../imports')
 
 module.exports = {
     legenda: '',
-    qtdCaracteres: 0,
 
     extrairLegenda(RecebeJson, PosicaoI) {
         let CaminhoWP = `/w:document/w:body/0/w:p/${(PosicaoI + 1)}/`
@@ -22,9 +21,6 @@ module.exports = {
             }
         }
         this.legenda = RecebeDadosLegenda
-    },
-    extrairQtdCaracteres(texto) {
-        this.qtdCaracteres = texto.length
     },
     ehTexto(RecebeJson, caminhoTextoWpr, caminhoTextoWr) {
         return (((imports.pointer.has(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`)) &&
