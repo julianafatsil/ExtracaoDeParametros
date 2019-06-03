@@ -21,7 +21,7 @@ exports.ExtrairDadosEpub = (caminhoArquivo, callback) => {
                                     imports.extrairDadosEpub.ExtrairDadosDocumentoEpub(caminhoArqParaExtracao, retorno => {
 
                                     })
-                                    return callback(imports.classDocument)
+                                    return callback(imports.baseEpub.objetoTemporario)
                                 }
                             })
                             imports.baseDocument.ExcluirDiretorioComArquivos(__dirname + '/tmp/', retorno => {

@@ -1,11 +1,10 @@
 const imports = require('./../imports')
 
-exports.ExtrairAtributosEpub = ($, tag, callback) => {
-    let total = $(tag).length
+exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
     let retorno = []
     retorno.pop()
-    for (let j = 0; j < total; j++) {
-        retorno.push({
+            retorno.push({
+            pertence: pertence,    
             tag: tag,
             texto: $(tag).eq(j).text(),
             class: $(tag).eq(j).attr('class'),
@@ -17,23 +16,22 @@ exports.ExtrairAtributosEpub = ($, tag, callback) => {
             type: $(tag).eq(j).attr('type'),
             src: $(tag).eq(j).attr('src')
         })
-    }
     return callback(retorno)
 }
 
-exports.ExtracaoRecursiva = ($, node) => {
+exports.ExtracaoRecursiva = ($, node, pertence) => {
     for (let i = 0; i < node.children.length; i++) {
         if (node.children[i].type === 'tag') {
+            let nomeObjeto = `filho${imports.tratativaClass.seguenciaFilhos}`
             imports.tratativaClass.incrementaSeguenciaFilhos()
-            let nomeObjetoFilho = ''
-            this.ExtrairAtributosEpub($, node.children[i].name, retorno =>{
-                nomeObjetoFilho = `filho${imports.tratativaClass.seguenciaFilhos}: ${retorno}`
-                this.objetoTemporario += {nomeObjetoFilho}
-                console.log(nomeObjetoFilho.filho1)
-                //Pesquisarcomo criar um objeto dinamico
+            this.ExtrairAtributosEpub($, node.children[i].name, 0, pertence, retorno =>{
+                this.objetoTemporario[nomeObjeto] = retorno
             })
+            if (node.children[i].children.length > 0){
+                this.ExtracaoRecursiva($, node.children[i])
+            }
         } else {
-            console.log('text2: ---', node.type)
+            // console.log('text2: ---', node.type)
         }
     }
 }
