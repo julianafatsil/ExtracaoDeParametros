@@ -28,7 +28,10 @@
     "word",
     "docx",
     "epub",
-    "acessibilidade"
+    "acessibilidade",
+    "codigo limpo",
+    "refatoração",
+    "função recursiva"
   ],
   "author": "SILVA et al",
   "license": "MPL-2.0",
