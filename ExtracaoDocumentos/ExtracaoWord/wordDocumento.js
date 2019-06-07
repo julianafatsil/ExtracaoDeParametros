@@ -1,12 +1,14 @@
 const imports = require('../imports')
 
 exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
+    
     const nomeArquivo = imports.path.basename(CaminhoArqWord);
     const nomeArquivoZip = `${nomeArquivo}.zip`;
-    const pastaTemporaria = `${__dirname}/tmp/`
+    const pastaTemporaria = `${imports.tratativaClass.RemoverPastaTemporaria}/`
     const arquivoTempJson = `${pastaTemporaria}temp.json`
     const wordDocument = `${pastaTemporaria}${nomeArquivo}/word/document.xml`
 
+    imports.baseDocument.ExcluirDiretorioComArquivos(imports.tratativaClass.RemoverPastaTemporaria, retorno => { })
     // imports.baseDocument.copiarRenomearExtrairArquivo(CaminhoArqWord, nomeArquivo, nomeArquivoZip, pastaTemporaria, retorno => {
 
     imports.baseDocument.CopiarArquivoNaPasta(CaminhoArqWord, (err) => {
@@ -15,8 +17,6 @@ exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
                 if (err == 'Zipou') {
                     imports.baseDocument.ExtractionFileZip(nomeArquivoZip, nomeArquivo, (err) => {
                         if (err == 'Extraiu') {
-                            imports.baseDocument.ExcluirDiretorioComArquivos(pastaTemporaria, err => { })
-
                             imports.baseDocument.ReadFileWithXml(wordDocument, (err) => {
                                 imports.parser.parseString(err, (err, result) => {
                                     parsedData = JSON.stringify(result)
@@ -25,7 +25,7 @@ exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
                                         imports.jsonfile.readFile(arquivoTempJson, function (err, obj) {
 
                                             const jsonData = JSON.parse(obj)
-
+                                            imports.baseDocument.ExcluirDiretorioComArquivos(imports.tratativaClass.RemoverPastaTemporaria, retorno => { })
                                             imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
 
                                             return callback(imports.classDocument)

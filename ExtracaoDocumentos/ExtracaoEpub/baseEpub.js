@@ -33,15 +33,17 @@ exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
 
 exports.ExtracaoRecursiva = ($, node) => {
     let pertence = ''
+    let j = 0
     for (let i = 0; i < node.children.length; i++) {
         if (node.children[i].type === 'tag') {
             let nomeObjeto = `filho${imports.tratativaClass.seguenciaFilhos}`
             imports.tratativaClass.incrementaSeguenciaFilhos()
             pertence = pertenceAh(node.children[i].parent.name, $(node.children[i].parent.name).parent().text())
-            console.log(node.children[i].childNodes)
-            this.ExtrairAtributosEpub($, node.children[i].name, imports.tratativaClass.seguenciaFilhos-1, pertence, retorno => {
+            this.ExtrairAtributosEpub($, node.children[i].name,j, pertence, retorno => {
                 this.objetoTemporario[nomeObjeto] = retorno
             })
+            if(node.children[i].name === 'p')
+            j++
             if (node.children[i].children.length > 0) {
                 this.ExtracaoRecursiva($, node.children[i])
             }
@@ -50,60 +52,57 @@ exports.ExtracaoRecursiva = ($, node) => {
         }
     }
 }
-
 exports.ExtrairAudios = () => {
     imports.tratativaClass.incrementaSeguenciaMidias()
     imports.classDocument.inserirAudios(
         imports.tratativaClass.seguenciaMidias
     )
 }
-
 exports.ExtrairCabecalho = () => {
     imports.classDocument.inserirDadosDocumento(
         'Caminho Tal',
         'Epub'
     )
 }
-
 exports.ExtrairGraficos = () => {
     imports.tratativaClass.incrementaSeguenciaMidias()
     imports.classDocument.inserirGraficos(
         imports.tratativaClass.seguenciaMidias
     )
 }
-
 exports.ExtrairImagens = () => {
     imports.tratativaClass.incrementaSeguenciaMidias()
     imports.classDocument.inserirImagens(
         imports.tratativaClass.seguenciaMidias
     )
 }
-
 exports.ExtrairTabelas = () => {
     imports.tratativaClass.incrementaSeguenciaMidias()
     imports.classDocument.inserirTabelas(
         imports.tratativaClass.seguenciaMidias
     )
 }
-
 exports.ExtrairTextos = () => {
-    console.log('ola mundo!')
     for (let i = 0; i < imports.tratativaClass.seguenciaFilhos; i++) {
-        console.log(i)
-        imports.tratativaClass.extrairQtdCaracteres(imports.baseEpub.objetoTemporario['filho'+i].texto)
+        imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario['filho'+i].texto)
         if (imports.tratativaClass.qtdCaracteres > 0) {
             imports.tratativaClass.incrementaSeguenciaMidias()
             imports.classDocument.inserirTextos(
                 imports.tratativaClass.seguenciaMidias,
                 imports.tratativaClass.seguenciaMidias,
-                imports.baseEpub.objetoTemporario['filho'+i].texto,
+                this.objetoTemporario['filho'+i].texto,
                 imports.tratativaClass.qtdCaracteres,
-
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                this.objetoTemporario['filho'+i].tag
             )
         }
     }
 }
-
 exports.ExtrairVideos = () => {
     imports.tratativaClass.incrementaSeguenciaMidias()
     imports.classDocument.inserirVideos(

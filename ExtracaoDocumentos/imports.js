@@ -23,6 +23,5 @@ exports.classStyle = require('./Classes/classStyle')
 exports.extrairDadosWord = require('./ExtracaoWord/extrairDadosWord')
 exports.baseWord = require('./ExtracaoWord/baseWord')
 
-
 exports.extrairDadosEpub = require('./ExtracaoEpub/extrairDadosEpub')
 exports.baseEpub = require('./ExtracaoEpub/baseEpub')

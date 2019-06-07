@@ -21,6 +21,7 @@ exports.NaoEhExtensaoValida = (CodigoExtensao) => {
 }
 
 exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
+    imports.tratativaClass.RemoverPastaTemporaria = __dirname + '/tmp'
     const epubDoc = require('./ExtracaoEpub/epubDocumento')
     const docxDoc = require('./ExtracaoWord/wordDocumento')
     const pdfDoc = require('./ExtracaoPdf/pdfDocumento')

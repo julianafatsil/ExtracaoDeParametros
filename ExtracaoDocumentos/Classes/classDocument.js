@@ -14,7 +14,8 @@ module.exports = {
         tipoDaFonte: null,
         corDeFundo: null,
         titulo: null,
-        alinhamentoTexto: null
+        alinhamentoTexto: null,
+        tagEpub: null
     }],
     imagens: [{
         seguencia: null,
@@ -64,7 +65,7 @@ module.exports = {
             this.themeShade = themeShade
     },
     inserirTextos(seguencia, idLinha, textoLinha, qtdCaracteresLinha, corDaFonte,
-        tamanhoDaFonte, tipoDaFonte, corDeFundo, titulo, alinhamentoTexto) {
+        tamanhoDaFonte, tipoDaFonte, corDeFundo, titulo, alinhamentoTexto,tagEpub) {
         this.textos.push({
             seguencia,
             idLinha,
@@ -75,7 +76,8 @@ module.exports = {
             tipoDaFonte,
             corDeFundo,
             titulo,
-            alinhamentoTexto
+            alinhamentoTexto,
+            tagEpub
         })
     },
     inserirImagens(seguencia, idImagem, nome, tituloAlt, descricaoAlt, legenda) {

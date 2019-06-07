@@ -7,6 +7,7 @@ module.exports = {
         this.erros.push({
             seguencia,
             message
+            
         })
     }
 }

@@ -4,6 +4,8 @@ module.exports = {
     seguenciaMidias: 0,    
     seguenciaFilhos:0,
     qtdCaracteres: 0,
+    RemoverPastaTemporaria: '',
+
     incrementaSeguenciaMidias() {
         this.seguenciaMidias++
     },

@@ -1,7 +1,7 @@
 const imports = require('../imports')
 
-exports.ExtrairDadosDocumentoEpub = (RecebeJson) => {
-    imports.baseDocument.ReadFileWithUtf8('./ExtracaoDocuments/tmp/' + RecebeJson + '/Text/TurismoParaCegos-10.xhtml', retorno => {
+exports.ExtrairDadosDocumentoEpub = (RecebeJson, callback) => {
+    imports.baseDocument.ReadFileWithUtf8('./ExtracaoDocumentos/tmp/' + RecebeJson + '/Text/TurismoParaCegos-10.xhtml', retorno => {
         let $ = imports.cheerio.load(retorno)
         $('html').each(function (i, html) {
             for (let i = 0; i < html.children.length; i++) {
@@ -10,8 +10,7 @@ exports.ExtrairDadosDocumentoEpub = (RecebeJson) => {
                         imports.baseEpub.ExtrairAtributosEpub($, html.children[i].name, 0, html.children[i].parent.name, retorno => {
                             imports.baseEpub.objetoTemporario['body'] = retorno
                             imports.baseEpub.ExtracaoRecursiva($, html.children[i])
-                            
-                            //console.log(imports.baseEpub.objetoTemporario)
+                            // console.log(imports.baseEpub.objetoTemporario)
                         })
                     }
                 } else {
@@ -30,8 +29,10 @@ exports.ExtrairDadosDocumentoEpub = (RecebeJson) => {
             // imports.baseEpub.ExtrairTextos($, html)
 
             //imports.baseEpub.ExtrairTabelas(RecebeJson)
+            imports.baseEpub.ExtrairTextos()
+            return callback(true)
 
         })
     })
-    imports.baseEpub.ExtrairTextos()
+   
 }
