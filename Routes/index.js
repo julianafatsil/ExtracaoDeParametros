@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const extrairDocs = require('../ExtracaoDocuments/extrairDocs')
+const extrairDocs = require('../ExtracaoDocumentos/extrairDocumentos')
 
 router.get('/', (req, res) => {
     let caminhoArquivo = req.query

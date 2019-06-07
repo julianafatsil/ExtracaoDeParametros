@@ -1,4 +1,4 @@
-const imports = require('./imports')
+const imports = require('../imports')
 
 exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
     const nomeArquivo = imports.path.basename(CaminhoArqWord);

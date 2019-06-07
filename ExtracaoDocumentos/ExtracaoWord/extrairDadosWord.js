@@ -30,7 +30,7 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
     // })
     //console.log(imports.classStyle.style)
 
-    imports.extrairCabecalho.ExtrairCabecalho(RecebeJson)
+    imports.baseWord.ExtrairCabecalho(RecebeJson)
 
     let TotalLinhasWP = imports.pointer.get(RecebeJson, '/w:document/w:body/0/w:p').length
     for (let i = 0; i < TotalLinhasWP; i++) {
@@ -41,18 +41,18 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
                     //console.log(`${i} - ${j}`)
                     //console.log(imports.pointer.get(RecebeJson, '/w:document/w:body/0/w:p/' + i + '/w:r/' + j))
 
-                    imports.extrairVideosWord.ExtrairVideos(RecebeJson, i, j)
+                    imports.baseWord.ExtrairVideos(RecebeJson, i, j)
 
-                    imports.extrairImagensWord.ExtrairImagens(RecebeJson, i, j)
+                    imports.baseWord.ExtrairImagens(RecebeJson, i, j)
 
-                    imports.extrairGraficosWord.ExtrairGraficos(RecebeJson, i, j)
+                    imports.baseWord.ExtrairGraficos(RecebeJson, i, j)
 
-                    imports.extrairAudiosWord.ExtrairAudios(RecebeJson, i, j)
+                    imports.baseWord.ExtrairAudios(RecebeJson, i, j)
 
-                    imports.extrairTextosWord.ExtrairTextos(RecebeJson, i, j)
+                    imports.baseWord.ExtrairTextos(RecebeJson, i, j)
                 }
             }
         } catch (e) { }
     }
-    imports.extrairTabelasWord.ExtrairTabelas(RecebeJson)
+    imports.baseWord.ExtrairTabelas(RecebeJson)
 }

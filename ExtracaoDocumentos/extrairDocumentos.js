@@ -21,9 +21,9 @@ exports.NaoEhExtensaoValida = (CodigoExtensao) => {
 }
 
 exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
-    const epubDoc = require('./epubDocument')
-    const docxDoc = require('./wordDocument')
-    const pdfDoc = require('./pdfDocument')
+    const epubDoc = require('./ExtracaoEpub/epubDocumento')
+    const docxDoc = require('./ExtracaoWord/wordDocumento')
+    const pdfDoc = require('./ExtracaoPdf/pdfDocumento')
 
     imports.tratativaClass.removerNulos()
     switch (CodigoDocumento) {

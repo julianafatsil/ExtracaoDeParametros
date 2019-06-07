@@ -1,4 +1,4 @@
-const imports = require('./imports')
+const imports = require('../imports')
 
 exports.ExtrairDadosEpub = (caminhoArquivo, callback) => {
     let nomeEpub = imports.path.basename(caminhoArquivo);
@@ -19,7 +19,8 @@ exports.ExtrairDadosEpub = (caminhoArquivo, callback) => {
                                 } else {
                                     console.log('epub')
                                     console.log(imports.baseEpub.objetoTemporario)
-                                    imports.extrairDadosEpub.ExtrairDadosDocumentoEpub(caminhoArqParaExtracao, retorno => [{}])
+                                    imports.extrairDadosEpub.ExtrairDadosDocumentoEpub(caminhoArqParaExtracao, retorno => {
+                                    })
                                     return callback(imports.classDocument)
                                 }
                             })

@@ -11,7 +11,7 @@ exports.ExtrairDadosDocumentoEpub = (RecebeJson) => {
                             imports.baseEpub.objetoTemporario['body'] = retorno
                             imports.baseEpub.ExtracaoRecursiva($, html.children[i])
                             
-                            console.log(imports.baseEpub.objetoTemporario)
+                            //console.log(imports.baseEpub.objetoTemporario)
                         })
                     }
                 } else {
@@ -19,18 +19,19 @@ exports.ExtrairDadosDocumentoEpub = (RecebeJson) => {
                 }
             }
 
-            //imports.extrairVideosEpub.ExtrairVideos(RecebeJson, i, j)
+            //imports.baseEpub.ExtrairVideos(RecebeJson, i, j)
 
-            //imports.extrairImagensEpub.ExtrairImagens(RecebeJson, i, j)
+            //imports.baseEpub.ExtrairImagens(RecebeJson, i, j)
 
-            //imports.extrairGraficosEpub.ExtrairGraficos(RecebeJson, i, j)
+            //imports.baseEpub.ExtrairGraficos(RecebeJson, i, j)
 
-            //imports.extrairAudiosEpub.ExtrairAudios(RecebeJson, i, j)
+            //imports.baseEpub.ExtrairAudios(RecebeJson, i, j)
 
-            // imports.extrairTextosEpub.ExtrairTextos($, html)
+            // imports.baseEpub.ExtrairTextos($, html)
 
-            //imports.extrairTabelasEpub.ExtrairTabelas(RecebeJson)
+            //imports.baseEpub.ExtrairTabelas(RecebeJson)
 
         })
     })
+    imports.baseEpub.ExtrairTextos()
 }
