@@ -1,7 +1,10 @@
 const imports = require('../imports')
 
-exports.ExtrairDadosDocumentoEpub = (RecebeJson, callback) => {
-    imports.baseDocument.ReadFileWithUtf8('./ExtracaoDocumentos/tmp/' + RecebeJson + '/Text/TurismoParaCegos-10.xhtml', retorno => {
+exports.ExtrairDadosDocumentoEpub = (arquivoXtml, callback) => {
+    
+    imports.baseDocument.ReadFileWithUtf8(arquivoXtml, retorno => {
+        console.log(arquivoXtml)
+        console.log('')
         let $ = imports.cheerio.load(retorno)
         $('html').each(function (i, html) {
             for (let i = 0; i < html.children.length; i++) {
@@ -10,29 +13,37 @@ exports.ExtrairDadosDocumentoEpub = (RecebeJson, callback) => {
                         imports.baseEpub.ExtrairAtributosEpub($, html.children[i].name, 0, html.children[i].parent.name, retorno => {
                             imports.baseEpub.objetoTemporario['body'] = retorno
                             imports.baseEpub.ExtracaoRecursiva($, html.children[i])
-                            // console.log(imports.baseEpub.objetoTemporario)
+                            console.log('leu')
+                            //console.log(imports.baseEpub.objetoTemporario)
                         })
                     }
                 } else {
                     // console.log('text: ---', html.children[i].name)
                 }
             }
+            console.log('')
+            console.log('Proximo')
+            for (let i = 0; i < imports.tratativaClass.seguenciaFilhos; i++) {
+                //  imports.baseEpub.ExtrairVideos('filho' + i)
+                console.log('')
 
-            //imports.baseEpub.ExtrairVideos(RecebeJson, i, j)
+                imports.baseEpub.ExtrairImagens('filho' + i)
+                console.log('')
 
-            //imports.baseEpub.ExtrairImagens(RecebeJson, i, j)
+                imports.baseEpub.ExtrairGraficos('filho' + i)
+                console.log('')
 
-            //imports.baseEpub.ExtrairGraficos(RecebeJson, i, j)
+                imports.baseEpub.ExtrairAudios('filho' + i)
+                console.log('')
 
-            //imports.baseEpub.ExtrairAudios(RecebeJson, i, j)
+                imports.baseEpub.ExtrairTabelas('filho' + i)
+                console.log('')
 
-            // imports.baseEpub.ExtrairTextos($, html)
-
-            //imports.baseEpub.ExtrairTabelas(RecebeJson)
-            imports.baseEpub.ExtrairTextos()
+                imports.baseEpub.ExtrairTextos('filho' + i)
+            }
             return callback(true)
 
         })
     })
-   
+
 }
