@@ -3,19 +3,19 @@ const imports = require('../imports')
 exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
     const nomeArquivo = imports.path.basename(CaminhoArqWord);
     const nomeArquivoZip = `${nomeArquivo}.zip`;
-    const pastaTemporaria = `${imports.tratativaClass.RemoverPastaTemporaria}/`
+    const pastaTemporaria = `${imports.baseDocument.PastaTemporaria}/`
     const arquivoTempJson = `${pastaTemporaria}temp.json`
     const wordDocument = `${pastaTemporaria}${nomeArquivo}/word/document.xml`
 
-    imports.baseDocument.ExcluirDiretorioComArquivos(imports.tratativaClass.RemoverPastaTemporaria, retorno => { })
+    imports.baseDocument.ExcluirDiretorioComArquivos(pastaTemporaria, retorno => { })
     // imports.baseDocument.copiarRenomearExtrairArquivo(CaminhoArqWord, nomeArquivo, nomeArquivoZip, pastaTemporaria, retorno => {
 
     imports.baseDocument.CopiarArquivoNaPasta(CaminhoArqWord, retorno => {
-        if (retorno == 'Copiou') {
-            imports.baseDocument.RenameArchiveForZip(nomeArquivo, nomeArquivoZip, retorno => {
-                if (retorno == 'Zipou') {
-                    imports.baseDocument.ExtractionFileZip(nomeArquivoZip, nomeArquivo, retorno => {
-                        if (retorno == 'Extraiu') {
+        if (retorno) {
+            imports.baseDocument.RenomearArquivoParaZip(nomeArquivo, nomeArquivoZip, retorno => {
+                if (retorno) {
+                    imports.baseDocument.ExtrairAquivoZip(nomeArquivoZip, nomeArquivo, retorno => {
+                        if (retorno) {
                             imports.baseWord.ExtrairStyle(`${pastaTemporaria}${nomeArquivo}`)
 
                             imports.baseDocument.ReadFileWithXml(wordDocument, retorno => {
@@ -26,7 +26,7 @@ exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
                                         imports.jsonfile.readFile(arquivoTempJson, function (retorno, obj) {
 
                                             const jsonData = JSON.parse(obj)
-                                            imports.baseDocument.ExcluirDiretorioComArquivos(imports.tratativaClass.RemoverPastaTemporaria, retorno => { })
+                                            imports.baseDocument.ExcluirDiretorioComArquivos(pastaTemporaria, retorno => { })
                                             imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
 
                                             return callback(imports.classDocument)

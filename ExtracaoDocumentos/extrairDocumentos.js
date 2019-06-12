@@ -21,12 +21,17 @@ exports.NaoEhExtensaoValida = (CodigoExtensao) => {
 }
 
 exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
-    imports.tratativaClass.RemoverPastaTemporaria = __dirname + '/tmp'
+    imports.baseDocument.PastaTemporaria = `${__dirname}/tmp`
     const epubDoc = require('./ExtracaoEpub/epubDocumento')
     const docxDoc = require('./ExtracaoWord/wordDocumento')
     const pdfDoc = require('./ExtracaoPdf/pdfDocumento')
 
     imports.tratativaClass.removerNulos()
+    imports.baseDocument.GravarNomeArquivoHeNomeZip(CaminhArquivo, retorno => {
+        if (!retorno) {
+            return callback({ message: 'Erro ao buscar nome do arquivo' })
+        }
+    })
     switch (CodigoDocumento) {
         case 1:
             docxDoc.ExtrairDadosDocx(CaminhArquivo, (retorno) => {

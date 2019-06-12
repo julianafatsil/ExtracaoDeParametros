@@ -23,7 +23,9 @@ module.exports = {
         nome: null,
         tituloAlt: null,
         descricaoAlt: null,
-        legenda: null
+        legenda: null,
+        src: null,
+        arquivo: null
     }],
     tabelas: [{
         seguencia: null,
@@ -80,7 +82,7 @@ module.exports = {
             tagEpub
         })
     },
-    inserirImagens(seguencia, idImagem, nome, tituloAlt, descricaoAlt, legenda) {
+    inserirImagens(seguencia, idImagem, nome, tituloAlt, descricaoAlt, legenda, src, arquivo) {
         let TemSeguenciaImagem = this.imagens.filter(existeIamgem => existeIamgem.idImagem === idImagem)
         if (TemSeguenciaImagem.length === 0) {
             this.imagens.push({
@@ -89,7 +91,9 @@ module.exports = {
                 nome,
                 tituloAlt,
                 descricaoAlt,
-                legenda
+                legenda,
+                src,
+                arquivo
             })
         }
     },

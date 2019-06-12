@@ -274,7 +274,7 @@ function InserirGrafico(RecebeJson, PosicaoI, caminhoGrafico) {
         RecebeDadosGraficos.$.name,
         imports.baseWord.legenda
     )
-    ExtrairEstruturaGraficos(imports.tratativaClass.seguenciaMidias)
+    //ExtrairEstruturaGraficos(imports.tratativaClass.seguenciaMidias)
 }
 function ExtrairEstruturaGraficos(seguenciaGrafico) {
     imports.baseWord.totalGrafico++

@@ -1,27 +1,36 @@
 const imports = require('./imports')
 
+exports.PastaTemporaria = ''
+exports.caminhoDoArquivo = ''
+exports.nomeDoArquivo = ''
+exports.nomeDoArquivoZip = ''
+
+exports.GravarNomeArquivoHeNomeZip = (caminhoArquivo, callback) => {
+    this.nomeDoArquivo = imports.path.basename(caminhoArquivo)
+    this.nomeDoArquivoZip = `${this.nomeDoArquivo}.zip`
+    this.caminhoDoArquivo = `${this.PastaTemporaria}/${this.nomeDoArquivo}/`
+
+    return callback(this.nomeDoArquivo.length > 1 ? true : false)
+}
+
 exports.CopiarArquivoNaPasta = (FileNameHaCopiar, callback) => {
     let NameDocument = imports.path.basename(FileNameHaCopiar)
     let LocalHaColar = __dirname + '/tmp/' + NameDocument
     imports.fse.copy(FileNameHaCopiar, LocalHaColar, function (err) {
-        return callback(err || 'Copiou')
+        return callback(err ? false : true)
     })
 }
 
-exports.RenameArchiveForZip = (FilenameForRenameZip, FileNameZip, callback) => {
+exports.RenomearArquivoParaZip = (FilenameForRenameZip, FileNameZip, callback) => {
     imports.fs.rename(__dirname + '/tmp/' + FilenameForRenameZip, __dirname + '/tmp/' + FileNameZip, function (err) {
-        return callback(err || 'Zipou')
+        return callback(err ? false : true)
     })
 }
 
-exports.ExtractionFileZip = (FilenameZipForExtraction, NameArchive, callback) => {
+exports.ExtrairAquivoZip = (FilenameZipForExtraction, NameArchive, callback) => {
     let Directory = __dirname + '/tmp/'
     imports.fs.createReadStream(Directory + FilenameZipForExtraction).pipe(imports.unzip.Extract({ path: Directory + NameArchive })).on('close', function () {
-        if (imports.fs.lstatSync(Directory + NameArchive).isDirectory()) {
-            return callback('Extraiu')
-        } else {
-            return callback('Não Extraiu')
-        }
+        return callback(imports.fs.lstatSync(Directory + NameArchive).isDirectory() ? true : false)
     })
 }
 

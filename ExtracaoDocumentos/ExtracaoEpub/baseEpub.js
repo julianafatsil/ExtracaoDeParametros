@@ -106,7 +106,8 @@ exports.ExtrairGraficos = (posicao) => {
     }
 }
 exports.ExtrairImagens = (posicao) => {
-    if (this.ehImagem(this.objetoTemporario[posicao].tag)) {
+    if ((this.ehImagem(this.objetoTemporario[posicao].tag)) &&
+        (this.objetoTemporario[posicao].src.length > 1)) {
         imports.tratativaClass.incrementaSeguenciaMidias()
         imports.classDocument.inserirImagens(
             imports.tratativaClass.seguenciaMidias,
@@ -114,7 +115,9 @@ exports.ExtrairImagens = (posicao) => {
             this.objetoTemporario[posicao].name,
             this.objetoTemporario[posicao].title,
             this.objetoTemporario[posicao].alt,
-            null //legenda
+            null, //legenda
+            this.objetoTemporario[posicao].src,
+            posicao
         )
     }
 }
@@ -133,22 +136,24 @@ exports.ExtrairTabelas = (posicao) => {
 }
 exports.ExtrairTextos = (posicao) => {
     if (this.ehTexto(this.objetoTemporario[posicao].tag)) {
-        imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario[posicao].texto)
-        if (imports.tratativaClass.qtdCaracteres > 0) {
-            imports.tratativaClass.incrementaSeguenciaMidias()
-            imports.classDocument.inserirTextos(
-                imports.tratativaClass.seguenciaMidias,
-                imports.tratativaClass.seguenciaMidias,
-                this.objetoTemporario[posicao].texto,
-                imports.tratativaClass.qtdCaracteres,
-                null, //corDaFonte
-                null, //tamanhoDaFonte
-                null, //tipoDaFonte
-                null, //corDeFundo
-                null, //titulo
-                null, //alinhamentoTexto // sera pego do arquivo css
-                this.objetoTemporario[posicao].tag
-            )
+        if ((this.objetoTemporario[posicao].texto.trim()) && (this.objetoTemporario[posicao].texto.trim() != '\n\n')) {
+            imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario[posicao].texto)
+            if (imports.tratativaClass.qtdCaracteres > 0) {
+                imports.tratativaClass.incrementaSeguenciaMidias()
+                imports.classDocument.inserirTextos(
+                    imports.tratativaClass.seguenciaMidias,
+                    imports.tratativaClass.seguenciaMidias,
+                    this.objetoTemporario[posicao].texto,
+                    imports.tratativaClass.qtdCaracteres,
+                    null, //corDaFonte
+                    null, //tamanhoDaFonte
+                    null, //tipoDaFonte
+                    null, //corDeFundo
+                    null, //titulo
+                    null, //alinhamentoTexto // sera pego do arquivo css
+                    this.objetoTemporario[posicao].tag
+                )
+            }
         }
     }
 }
