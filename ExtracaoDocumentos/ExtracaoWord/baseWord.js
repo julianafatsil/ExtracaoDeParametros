@@ -3,6 +3,15 @@ const imports = require('../imports')
 module.exports = {
     legenda: '',
     totalGrafico: 0,
+    arquivoTempJson: '',
+    arquivoDocumentXML: '',
+
+    carregarCaminhosWord(callback) {
+        this.arquivoTempJson = `${imports.baseDocument.PastaTemporaria}temp.json`
+        this.arquivoDocumentXML = `${imports.baseDocument.caminhoDoArquivo}word/document.xml`
+
+        return callback(this.arquivoTempJson.length > 10 ? true : false)
+    },
 
     extrairLegenda(RecebeJson, PosicaoI) {
         let CaminhoWP = `/w:document/w:body/0/w:p/${(PosicaoI + 1)}/`

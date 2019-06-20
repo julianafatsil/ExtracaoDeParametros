@@ -21,7 +21,7 @@ exports.NaoEhExtensaoValida = (CodigoExtensao) => {
 }
 
 exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
-    imports.baseDocument.PastaTemporaria = `${__dirname}/tmp`
+    imports.baseDocument.PastaTemporaria = `${__dirname}/tmp/`
     const epubDoc = require('./ExtracaoEpub/epubDocumento')
     const docxDoc = require('./ExtracaoWord/wordDocumento')
     const pdfDoc = require('./ExtracaoPdf/pdfDocumento')
@@ -29,12 +29,19 @@ exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
     imports.tratativaClass.removerNulos()
     imports.baseDocument.GravarNomeArquivoHeNomeZip(CaminhArquivo, retorno => {
         if (!retorno) {
-            return callback({ message: 'Erro ao buscar nome do arquivo' })
+            imports.classErros.indice = 'ErroDocumentos'
+            return callback(imports.classErros.erros[`${imports.classErros.indice}`])
         }
     })
     switch (CodigoDocumento) {
         case 1:
-            docxDoc.ExtrairDadosDocx(CaminhArquivo, (retorno) => {
+            imports.baseWord.carregarCaminhosWord(retorno => {
+                if (!retorno) {
+                    imports.classErros.indice = 'ErroWord'
+                    return callback(imports.classErros.erros[`${imports.classErros.indice}`])
+                }
+            })
+            docxDoc.ExtrairDadosDocx(retorno => {
                 return callback(retorno);
             })
             break;
@@ -44,7 +51,7 @@ exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
             })
             break;
         case 3:
-            epubDoc.ExtrairDadosEpub(CaminhArquivo, (retorno) => {
+            epubDoc.ExtrairDadosEpub(retorno => {
                 return callback(retorno)
             })
             break;

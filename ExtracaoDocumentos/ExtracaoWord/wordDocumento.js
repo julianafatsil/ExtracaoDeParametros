@@ -1,43 +1,30 @@
 const imports = require('../imports')
 
-exports.ExtrairDadosDocx = (CaminhoArqWord, callback) => {
-    const nomeArquivo = imports.path.basename(CaminhoArqWord);
-    const nomeArquivoZip = `${nomeArquivo}.zip`;
-    const pastaTemporaria = `${imports.baseDocument.PastaTemporaria}/`
-    const arquivoTempJson = `${pastaTemporaria}temp.json`
-    const wordDocument = `${pastaTemporaria}${nomeArquivo}/word/document.xml`
+exports.ExtrairDadosDocx = (callback) => {
+    imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
 
-    imports.baseDocument.ExcluirDiretorioComArquivos(pastaTemporaria, retorno => { })
-    // imports.baseDocument.copiarRenomearExtrairArquivo(CaminhoArqWord, nomeArquivo, nomeArquivoZip, pastaTemporaria, retorno => {
-
-    imports.baseDocument.CopiarArquivoNaPasta(CaminhoArqWord, retorno => {
+    imports.baseDocument.ExtrairParaPastaTemporaria(retorno => {
         if (retorno) {
-            imports.baseDocument.RenomearArquivoParaZip(nomeArquivo, nomeArquivoZip, retorno => {
-                if (retorno) {
-                    imports.baseDocument.ExtrairAquivoZip(nomeArquivoZip, nomeArquivo, retorno => {
-                        if (retorno) {
-                            imports.baseWord.ExtrairStyle(`${pastaTemporaria}${nomeArquivo}`)
+            imports.baseWord.ExtrairStyle(`${imports.baseDocument.caminhoDoArquivo}`)
 
-                            imports.baseDocument.ReadFileWithXml(wordDocument, retorno => {
-                                imports.parser.parseString(retorno, (retorno, result) => {
-                                    parsedData = JSON.stringify(result)
+            imports.baseDocument.ReadFileWithXml(imports.baseWord.arquivoDocumentXML, retorno => {
+                imports.parser.parseString(retorno, (retorno, result) => {
+                    parsedData = JSON.stringify(result)
 
-                                    imports.jsonfile.writeFile(arquivoTempJson, parsedData, function (retorno) {
-                                        imports.jsonfile.readFile(arquivoTempJson, function (retorno, obj) {
+                    imports.jsonfile.writeFile(imports.baseWord.arquivoTempJson, parsedData, function (retorno) {
+                        imports.jsonfile.readFile(imports.baseWord.arquivoTempJson, function (retorno, obj) {
 
-                                            const jsonData = JSON.parse(obj)
-                                            imports.baseDocument.ExcluirDiretorioComArquivos(pastaTemporaria, retorno => { })
-                                            imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
+                            const jsonData = JSON.parse(obj)
+                            imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
+                            imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
 
-                                            return callback(imports.classDocument)
-                                        })
-                                    })
-                                })
-                            })
-                        }
+                            return callback(imports.classDocument)
+                        })
                     })
-                }
+                })
             })
+        } else {
+            return callback(imports.classErros.erros[`${imports.classErros.indice}`])
         }
     })
 }
