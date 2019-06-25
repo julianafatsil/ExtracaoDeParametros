@@ -16,6 +16,11 @@ exports.objetoTemporario = []
 exports.objetoCssTemporario = []
 exports.arquivosCss = []
 exports.arquivosXhtml = []
+exports.TamanhoDaFonte = '12'
+exports.CorDaFonte = ''
+exports.AlinhamentoTexto = ''
+exports.CorDeFundo = 'ffffff'
+exports.TipoDaFonte = ''
 
 exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
     let retorno = {
@@ -139,40 +144,58 @@ function substituir(texto, de, por) {
     var regex = new RegExp(de, "g")
     return texto.replace(regex, por)
 }
+function RetornarCss(tagCss, classCss) {
+    let tagTemporaria = ''
+    let retorno = ''
+    if (classCss.indexOf(`${tagCss}`) > 0) {
+        tagTemporaria = classCss.substring(classCss.indexOf(`${tagCss}`))
+        retorno = tagTemporaria.substring(classCss.substring(classCss.indexOf(`${tagCss}`))
+            , tagTemporaria.indexOf(';'))
+    }
+    return retorno.replace(`${tagCss}`, '')
+}
 function ExtrairDadosCss(posicao) {
-    let tamanhoFonte
-    imports.baseEpub.objetoCssTemporario[1] = substituir(imports.baseEpub.objetoCssTemporario[1], ' ', '')
+    let arrayCss = ''
+    let armazena
+    let armazena2
+    let ObjetoInformacao = {}
+    arrayCss = substituir(imports.baseEpub.objetoCssTemporario[1], ' ', '')
+    arrayCss += substituir(imports.baseEpub.objetoCssTemporario[0], ' ', '')
 
-    if (imports.baseEpub.objetoCssTemporario[0].indexOf('p.epigraf{') > 0) {
-        //console.log('body')
-    }
-
-    if (imports.baseEpub.objetoCssTemporario[1].indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '{') > 0) {
-        //console.log('So tag')
-    }
-
-    if (imports.baseEpub.objetoCssTemporario[1].indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
+    if (arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
         imports.baseEpub.objetoTemporario[posicao].class + '{') > 0) {
+        armazena = arrayCss.substring(arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
+            imports.baseEpub.objetoTemporario[posicao].class + '{'))
+        armazena2 = armazena.substring(0, armazena.indexOf('}'))
 
-        tamanhoFonte = imports.baseEpub.objetoCssTemporario[1].slice(
-            imports.baseEpub.objetoCssTemporario[1].indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
-                imports.baseEpub.objetoTemporario[posicao].class + '{'),
-            imports.baseEpub.objetoCssTemporario[1].indexOf('}'))
-        console.log(
-            imports.baseEpub.objetoTemporario[posicao].tag + '.' +
-            imports.baseEpub.objetoTemporario[posicao].class + '{',
-
-            ' ',
-
-            imports.baseEpub.objetoCssTemporario[1].indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
-                imports.baseEpub.objetoTemporario[posicao].class + '{'),
-            imports.baseEpub.objetoCssTemporario[1].indexOf('}'))
+        imports.baseEpub.TamanhoDaFonte = RetornarCss('font-size:', armazena2)
+        imports.baseEpub.CorDaFonte = RetornarCss('color:', armazena2)
+        imports.baseEpub.AlinhamentoTexto = RetornarCss('font-align:', armazena2)
+        imports.baseEpub.CorDeFundo = RetornarCss('background-color:', armazena2)
+        imports.baseEpub.TipoDaFonte = RetornarCss('font-family:', armazena2)
+    } else {
+        if (arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '{') > 0) {
+            //console.log(arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '{'))
+        } else {
+            if (arrayCss.indexOf('body{')) {
+                // console.log(arrayCss.indexOf('body{'))
+            }
+        }
     }
-    return { tamamnhoFonte: 12 }
+
+    ObjetoInformacao = {
+        tamanhoFonte: imports.baseEpub.TamanhoDaFonte,
+        corDaFonte: imports.baseEpub.CorDaFonte,
+        alinhamentoTexto: imports.baseEpub.AlinhamentoTexto,
+        corDeFundo: imports.baseEpub.CorDeFundo,
+        tipoDaFonte: imports.baseEpub.TipoDaFonte
+    }
+    return ObjetoInformacao
 }
 exports.ExtrairTextos = (posicao) => {
     if (this.ehTexto(this.objetoTemporario[posicao].tag)) {
         let buscarCss = ExtrairDadosCss(posicao)
+        //console.log(buscarCss)
 
         if ((this.objetoTemporario[posicao].texto.trim()) && (this.objetoTemporario[posicao].texto.trim() != '\n\n')) {
             imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario[posicao].texto)
@@ -183,12 +206,12 @@ exports.ExtrairTextos = (posicao) => {
                     imports.tratativaClass.seguenciaMidias,
                     this.objetoTemporario[posicao].texto,
                     imports.tratativaClass.qtdCaracteres,
-                    null, //corDaFonte
-                    buscarCss.tamamnhoFonte, //tamanhoDaFonte
-                    null, //tipoDaFonte
-                    null, //corDeFundo
+                    buscarCss.corDaFonte, //corDaFonte
+                    buscarCss.tamanhoFonte, //tamanhoDaFonte
+                    buscarCss.tipoDaFonte, //tipoDaFonte
+                    buscarCss.corDeFundo, //corDeFundo
                     null, //titulo
-                    null, //alinhamentoTexto // sera pego do arquivo css
+                    buscarCss.alinhamentoTexto, //alinhamentoTexto // sera pego do arquivo css
                     this.objetoTemporario[posicao].tag
                 )
             }
