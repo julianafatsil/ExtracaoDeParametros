@@ -16,15 +16,21 @@ exports.objetoTemporario = []
 exports.objetoCssTemporario = []
 exports.arquivosCss = []
 exports.arquivosXhtml = []
-exports.TamanhoDaFonte = '12'
+
+exports.TamanhoDaFonte = ''
+exports.QtdCaracteresTamanhoDaFonte = 0
 exports.CorDaFonte = ''
+exports.QtdCaracteresCorDaFonte = 0
 exports.AlinhamentoTexto = ''
-exports.CorDeFundo = 'ffffff'
+exports.QtdCaracteresAlinhamentoTexto = 0
+exports.CorDeFundo = ''
+exports.QtdCaracteresCorDeFundo = ''
 exports.TipoDaFonte = ''
+exports.QtdCaracteresTipoDaFonte = ''
 
 exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
     let retorno = {
-        pertence: pertence,
+        pertence: (pertence ? pertence : ''),
         tag: tag,
         texto: $(tag).eq(j).text(),
         class: ($(tag).eq(j).attr('class') ? $(tag).eq(j).attr('class') : ''),
@@ -35,7 +41,8 @@ exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
         target: $(tag).eq(j).attr('target'),
         type: $(tag).eq(j).attr('type'),
         src: $(tag).eq(j).attr('src'),
-        name: $(tag).eq(j).attr('name')
+        name: $(tag).eq(j).attr('name'),
+        style: ($(tag).eq(j).attr('style') ? $(tag).eq(j).attr('style') : '')
     }
     return callback(retorno)
 }
@@ -144,7 +151,20 @@ function substituir(texto, de, por) {
     var regex = new RegExp(de, "g")
     return texto.replace(regex, por)
 }
-function RetornarCss(tagCss, classCss) {
+function LimparVariaveisEpub() {
+    imports.baseEpub.QtdCaracteresTamanhoDaFonte = 0
+    imports.baseEpub.QtdCaracteresCorDaFonte = 0
+    imports.baseEpub.QtdCaracteresAlinhamentoTexto = 0
+    imports.baseEpub.QtdCaracteresCorDeFundo = 0
+    imports.baseEpub.QtdCaracteresTipoDaFonte = 0
+
+    imports.baseEpub.TamanhoDaFonte = ''
+    imports.baseEpub.CorDaFonte = ''
+    imports.baseEpub.AlinhamentoTexto = ''
+    imports.baseEpub.CorDeFundo = ''
+    imports.baseEpub.TipoDaFonte = ''
+}
+function RetornarTagCss(tagCss, classCss) {
     let tagTemporaria = ''
     let retorno = ''
     if (classCss.indexOf(`${tagCss}`) > 0) {
@@ -152,36 +172,85 @@ function RetornarCss(tagCss, classCss) {
         retorno = tagTemporaria.substring(classCss.substring(classCss.indexOf(`${tagCss}`))
             , tagTemporaria.indexOf(';'))
     }
-    return retorno.replace(`${tagCss}`, '')
+    retorno = retorno.replace(`${tagCss}`, '')
+    retorno = retorno.replace(`inherit`, '')
+    return retorno
+}
+function CarregarTodoCss() {
+    let retornaCss = ''
+    for (let i = 0; i < imports.baseEpub.objetoCssTemporario.length; i++)
+        retornaCss += substituir(imports.baseEpub.objetoCssTemporario[i], ' ', '')
+    return retornaCss
+}
+function CapturarFontSize(tagCss) {
+    let Aux = RetornarTagCss('font-size:', tagCss)
+    //console.log(Aux)
+    imports.baseEpub.TamanhoDaFonte = Aux
+    imports.baseEpub.QtdCaracteresTamanhoDaFonte = Aux.length
+}
+function RetornarClasseCss(arrayCss, encontrarTag) {
+    let armazena = arrayCss.substring(arrayCss.indexOf(encontrarTag))
+    return armazena.substring(0, armazena.indexOf('}'))
+}
+function ProcessarCssStyle(posicao) {
+    let arrayStyle = substituir(imports.baseEpub.objetoTemporario[posicao].style, ' ', '')
+
+    CapturarFontSize(arrayStyle)
+}
+function ProcessarCss(posicao, arrayCss) {
+
+     ProcessarCssStyle(posicao)
+
+     ProcessarCapturarCss(posicao, arrayCss)
+
+    ProcessarCssPertenceRecursiva(posicao, arrayCss)
+
+}
+function ProcessarCssPertenceRecursiva(posicao, arrayCss) {
+    //console.log(posicao+ ' '+ imports.baseEpub.objetoTemporario[posicao].pertence + ' '+ imports.baseEpub.objetoTemporario[posicao].tag)
+    ProcessarCapturarCss(posicao, arrayCss)
+    if ((imports.baseEpub.objetoTemporario[posicao].pertence !== '') && (imports.baseEpub.objetoTemporario[posicao].pertence !== 'html')) {
+        //console.log(arrayCss)
+        ProcessarCssPertenceRecursiva(imports.baseEpub.objetoTemporario[posicao].pertence, arrayCss)
+    }
+}
+function ProcessarCapturarCss(posicao, arrayCss) {
+    let classeCss
+
+    if ((arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' + imports.baseEpub.objetoTemporario[posicao].class + '{') === 0) &&
+        (arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].class + '{') > 0)) {
+
+        classeCss = RetornarClasseCss(arrayCss, imports.baseEpub.objetoTemporario[posicao].class + '{')
+        if (imports.baseEpub.QtdCaracteresTamanhoDaFonte === 0)
+            CapturarFontSize(classeCss)
+    }
+
+    if ((arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
+        imports.baseEpub.objetoTemporario[posicao].class + '{') > 0)) {
+
+        classeCss = RetornarClasseCss(arrayCss, imports.baseEpub.objetoTemporario[posicao].tag +
+            '.' + imports.baseEpub.objetoTemporario[posicao].class + '{')
+
+        if (imports.baseEpub.QtdCaracteresTamanhoDaFonte === 0)
+            CapturarFontSize(classeCss)
+        // imports.baseEpub.CorDaFonte = RetornarTagCss('color:', classeCss)
+        // imports.baseEpub.QtdCaracteresCorDaFonte = RetornarTagCss('color:', classeCss).length
+        // imports.baseEpub.AlinhamentoTexto = RetornarTagCss('font-align:', classeCss)
+        // imports.baseEpub.CorDeFundo = RetornarTagCss('background-color:', classeCss)
+        // imports.baseEpub.TipoDaFonte = RetornarTagCss('font-family:', classeCss)
+    }
+
+    if ((arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '{') > 0)) {
+        classeCss = RetornarClasseCss(arrayCss, imports.baseEpub.objetoTemporario[posicao].tag + '{')
+        if (imports.baseEpub.QtdCaracteresTamanhoDaFonte === 0)
+            CapturarFontSize(classeCss)
+    }
 }
 function ExtrairDadosCss(posicao) {
-    let arrayCss = ''
-    let armazena
-    let armazena2
     let ObjetoInformacao = {}
-    arrayCss = substituir(imports.baseEpub.objetoCssTemporario[1], ' ', '')
-    arrayCss += substituir(imports.baseEpub.objetoCssTemporario[0], ' ', '')
-
-    if (arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
-        imports.baseEpub.objetoTemporario[posicao].class + '{') > 0) {
-        armazena = arrayCss.substring(arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
-            imports.baseEpub.objetoTemporario[posicao].class + '{'))
-        armazena2 = armazena.substring(0, armazena.indexOf('}'))
-
-        imports.baseEpub.TamanhoDaFonte = RetornarCss('font-size:', armazena2)
-        imports.baseEpub.CorDaFonte = RetornarCss('color:', armazena2)
-        imports.baseEpub.AlinhamentoTexto = RetornarCss('font-align:', armazena2)
-        imports.baseEpub.CorDeFundo = RetornarCss('background-color:', armazena2)
-        imports.baseEpub.TipoDaFonte = RetornarCss('font-family:', armazena2)
-    } else {
-        if (arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '{') > 0) {
-            //console.log(arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '{'))
-        } else {
-            if (arrayCss.indexOf('body{')) {
-                // console.log(arrayCss.indexOf('body{'))
-            }
-        }
-    }
+    let arrayCss = CarregarTodoCss()
+    LimparVariaveisEpub()
+    ProcessarCss(posicao, arrayCss)
 
     ObjetoInformacao = {
         tamanhoFonte: imports.baseEpub.TamanhoDaFonte,
@@ -195,7 +264,7 @@ function ExtrairDadosCss(posicao) {
 exports.ExtrairTextos = (posicao) => {
     if (this.ehTexto(this.objetoTemporario[posicao].tag)) {
         let buscarCss = ExtrairDadosCss(posicao)
-        //console.log(buscarCss)
+        console.log('Retorno: ' + buscarCss.tamanhoFonte)
 
         if ((this.objetoTemporario[posicao].texto.trim()) && (this.objetoTemporario[posicao].texto.trim() != '\n\n')) {
             imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario[posicao].texto)
