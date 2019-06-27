@@ -8,6 +8,7 @@ exports.ExtrairDadosEpub = (callback) => {
             imports.baseDocument.ReadFileWithUtf8(caminhoArqParaExtracao, (retorno) => {
                 let $ = imports.cheerio.load(retorno)
                 $('rootfile').each(function (i, rootfile) {
+                    imports.baseEpub.PastaArquivosEpub = rootfile.attribs['full-path'].split('/')
                     imports.baseDocument.ReadFileWithUtf8(imports.baseDocument.caminhoDoArquivo + rootfile.attribs['full-path'], retorno => {
                         let $ = imports.cheerio.load(retorno)
                         $('package').each(function (i, package) {
@@ -22,10 +23,12 @@ exports.ExtrairDadosEpub = (callback) => {
                             }
                             imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
 
-                            for (let i = 0; i < imports.baseEpub.arquivosCss.length; i++) {
-                                imports.baseDocument.ReadFileWithUtf8(imports.baseEpub.arquivosCss[i], retorno => {
-                                    imports.baseEpub.objetoCssTemporario.push(retorno)
-                                })
+                            if (imports.baseEpub.arquivosCss.length > 0) {
+                                for (let i = 0; i < imports.baseEpub.arquivosCss.length; i++) {
+                                    imports.baseDocument.ReadFileWithUtf8(imports.baseEpub.arquivosCss[i], retorno => {
+                                        imports.baseEpub.objetoCssTemporario.push(retorno)
+                                    })
+                                }
                             }
 
                             let totalArquivos = imports.baseEpub.arquivosXhtml.length
