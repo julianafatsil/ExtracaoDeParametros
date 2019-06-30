@@ -76,7 +76,7 @@ module.exports = {
         }
 
         imports.classDocument.inserirDadosDocumento(
-            'Caminho Tal',
+            imports.baseDocument.caminhoArquivoHaProcessar,
             'docx',
             color,
             themeColor,

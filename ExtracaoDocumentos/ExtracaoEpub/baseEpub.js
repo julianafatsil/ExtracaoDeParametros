@@ -47,7 +47,6 @@ exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
     }
     return callback(retorno)
 }
-
 exports.ExtracaoRecursiva = ($, node) => {
     let pertence = ''
     let j = 0
@@ -69,7 +68,6 @@ exports.ExtracaoRecursiva = ($, node) => {
         }
     }
 }
-
 exports.ExtracaoArqXhtmlECss = (caminhoDocumentoEpub, node, callback) => {
     for (let i = 0; i < node.children.length; i++) {
         if (node.children[i].type === 'tag') {
@@ -87,7 +85,6 @@ exports.ExtracaoArqXhtmlECss = (caminhoDocumentoEpub, node, callback) => {
         }
     }
 }
-
 exports.ExtrairAudios = (posicao) => {
     if (this.ehAudio(this.objetoTemporario[posicao].tag)) {
         imports.tratativaClass.incrementaSeguenciaMidias()
@@ -95,14 +92,14 @@ exports.ExtrairAudios = (posicao) => {
             imports.tratativaClass.seguenciaMidias,
             imports.tratativaClass.seguenciaMidias,
             this.objetoTemporario[posicao].alt,
-            null //legenda
+            this.objetoTemporario[posicao].title //legenda
         )
     }
 }
 exports.ExtrairCabecalho = (posicao) => {
     imports.classDocument.inserirDadosDocumento(
-        'Caminho Tal',
-        'Epub'
+        imports.baseDocument.caminhoArquivoHaProcessar,
+        'epub'
     )
 }
 exports.ExtrairGraficos = (posicao) => {
@@ -112,7 +109,7 @@ exports.ExtrairGraficos = (posicao) => {
             imports.tratativaClass.seguenciaMidias,
             imports.tratativaClass.seguenciaMidias,
             null, //estilo: 
-            null, //tituloAlt:
+            this.objetoTemporario[posicao].title,
             this.objetoTemporario[posicao].alt,
             this.objetoTemporario[posicao].name,
             null //legenda: 
@@ -148,9 +145,89 @@ exports.ExtrairTabelas = (posicao) => {
         )
     }
 }
-function substituir(texto, de, por) {
-    var regex = new RegExp(de, "g")
-    return texto.replace(regex, por)
+exports.ExtrairTextos = (posicao) => {
+    if (this.ehTexto(this.objetoTemporario[posicao].tag)) {
+        let buscarCss = ExtrairDadosCss(posicao)
+        //console.log('Retorno: ' + buscarCss.corDaFonte)
+
+        if ((this.objetoTemporario[posicao].texto.trim()) && (this.objetoTemporario[posicao].texto.trim() != '\n\n')) {
+            imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario[posicao].texto)
+            if (imports.tratativaClass.qtdCaracteres > 0) {
+                imports.tratativaClass.incrementaSeguenciaMidias()
+                imports.classDocument.inserirTextos(
+                    imports.tratativaClass.seguenciaMidias,
+                    imports.tratativaClass.seguenciaMidias,
+                    this.objetoTemporario[posicao].texto,
+                    imports.tratativaClass.qtdCaracteres,
+                    buscarCss.corDaFonte, //corDaFonte
+                    buscarCss.tamanhoFonte, //tamanhoDaFonte
+                    buscarCss.tipoDaFonte, //tipoDaFonte
+                    buscarCss.corDeFundo, //corDeFundo
+                    null, //titulo
+                    buscarCss.alinhamentoTexto,
+                    this.objetoTemporario[posicao].tag
+                )
+            }
+        }
+    }
+}
+exports.ExtrairVideos = (posicao) => {
+    if (this.ehVideo(this.objetoTemporario[posicao].tag)) {
+        imports.tratativaClass.incrementaSeguenciaMidias()
+        imports.classDocument.inserirVideos(
+            imports.tratativaClass.seguenciaMidias,
+            imports.tratativaClass.seguenciaMidias,
+            this.objetoTemporario[posicao].title, //tituloAlt
+            this.objetoTemporario[posicao].alt,
+            this.objetoTemporario[posicao].name,
+            this.objetoTemporario[posicao].src,
+            null
+        )
+    }
+}
+exports.ExtrairHead = (nodeHead) => {
+    for (let h = 0; h < nodeHead.children.length; h++) {
+        if (nodeHead.children[h].tagName === 'style')
+            imports.baseEpub.objetoCssTemporario.push(nodeHead.children[h].children[0].data)
+        //console.log(h + ' = ' + nodeHead.children[h].name + ' - ' + nodeHead.children[h].tagName)
+    }
+}
+exports.ehTexto = (tag) => {
+    return ((!this.ehImagem(tag)) && (!this.ehVideo(tag)) && (!this.ehAudio(tag)) && (!this.ehTabela(tag)) && (!this.ehGrafico(tag))
+        && (!this.ehTabelaDados(tag)))
+}
+exports.ehVideo = (tag) => {
+    return ((tag === 'video') || (tag === 'source') || (tag === 'track'))
+}
+exports.ehImagem = (tag) => {
+    return ((tag === 'img') || (tag === 'figure'))
+}
+exports.ehAudio = (tag) => {
+    return ((tag === 'audio') || (tag === 'source'))
+}
+exports.ehTabela = (tag) => {
+    return (tag === 'table')
+}
+exports.ehTabelaDados = (tag) => {
+    return ((tag === 'th') || (tag === 'tr') || (tag === 'td') || (tag === 'tbody') || (tag === 'thead'))
+}
+exports.ehGrafico = (tag) => {
+    return (tag === 'canvas')
+}
+function ExtrairDadosCss(posicao) {
+    let ObjetoInformacao = {}
+    let arrayCss = CarregarTodoCss()
+    LimparVariaveisEpub()
+    ProcessarCss(posicao, arrayCss)
+
+    ObjetoInformacao = {
+        tamanhoFonte: imports.baseEpub.TamanhoDaFonte,
+        corDaFonte: imports.baseEpub.CorDaFonte,
+        alinhamentoTexto: imports.baseEpub.AlinhamentoTexto,
+        corDeFundo: imports.baseEpub.CorDeFundo,
+        tipoDaFonte: imports.baseEpub.TipoDaFonte
+    }
+    return ObjetoInformacao
 }
 function LimparVariaveisEpub() {
     imports.baseEpub.QtdCaracteresTamanhoDaFonte = 0
@@ -177,46 +254,6 @@ function RetornarTagCss(tagCss, classCss) {
     retorno = retorno.replace(`inherit`, '')
     return retorno
 }
-function CarregarTodoCss() {
-    let retornaCss = ''
-    for (let i = 0; i < imports.baseEpub.objetoCssTemporario.length; i++)
-        retornaCss += substituir(imports.baseEpub.objetoCssTemporario[i], ' ', '')
-    return retornaCss
-}
-function CapturarFontSize(tagCss) {
-    let Aux = RetornarTagCss('font-size:', tagCss)
-    imports.baseEpub.TamanhoDaFonte = Aux
-    imports.baseEpub.QtdCaracteresTamanhoDaFonte = Aux.length
-}
-function CapturarColor(tagCss) {
-    let Aux = RetornarTagCss('color:', tagCss)
-    imports.baseEpub.CorDaFonte = Aux
-    imports.baseEpub.QtdCaracteresCorDaFonte = Aux.length
-}
-function CapturarFontAlign(tagCss) {
-    let Aux = RetornarTagCss('font-align:', tagCss)
-    imports.baseEpub.AlinhamentoTexto = Aux
-    imports.baseEpub.QtdCaracteresAlinhamentoTexto = Aux.length
-}
-function CapturarFontFamily(tagCss) {
-    let Aux = RetornarTagCss('font-family:', tagCss)
-    imports.baseEpub.TipoDaFonte = Aux
-    imports.baseEpub.QtdCaracteresTipoDaFonte = Aux.length
-}
-function CapturarFontBackgroundColor(tagCss) {
-    let Aux = RetornarTagCss('background-color:', tagCss)
-    imports.baseEpub.CorDeFundo = Aux
-    imports.baseEpub.QtdCaracteresCorDeFundo = Aux.length
-}
-function RetornarClasseCss(arrayCss, encontrarTag) {
-    let armazena = arrayCss.substring(arrayCss.indexOf(encontrarTag))
-    return armazena.substring(0, armazena.indexOf('}'))
-}
-function ProcessarCssStyle(posicao) {
-    let arrayStyle = substituir(imports.baseEpub.objetoTemporario[posicao].style, ' ', '')
-
-    CapturarFontSize(arrayStyle)
-}
 function ProcessarCss(posicao, arrayCss) {
 
     ProcessarCssStyle(posicao)
@@ -226,10 +263,11 @@ function ProcessarCss(posicao, arrayCss) {
     ProcessarCssPertenceRecursiva(posicao, arrayCss)
 
 }
-function ProcessarCssPertenceRecursiva(posicao, arrayCss) {
-    ProcessarCapturarCss(posicao, arrayCss)
-    if ((imports.baseEpub.objetoTemporario[posicao].pertence !== '') && (imports.baseEpub.objetoTemporario[posicao].pertence !== 'html'))
-        ProcessarCssPertenceRecursiva(imports.baseEpub.objetoTemporario[posicao].pertence, arrayCss)
+
+function ProcessarCssStyle(posicao) {
+    let arrayStyle = substituir(imports.baseEpub.objetoTemporario[posicao].style, ' ', '')
+
+    CapturarFontSize(arrayStyle)
 }
 function ProcessarCapturarCss(posicao, arrayCss) {
     let classeCss
@@ -295,77 +333,47 @@ function ProcessarCapturarCss(posicao, arrayCss) {
             CapturarFontAlign(classeCss)
     }
 }
-function ExtrairDadosCss(posicao) {
-    let ObjetoInformacao = {}
-    let arrayCss = CarregarTodoCss()
-    LimparVariaveisEpub()
-    ProcessarCss(posicao, arrayCss)
-
-    ObjetoInformacao = {
-        tamanhoFonte: imports.baseEpub.TamanhoDaFonte,
-        corDaFonte: imports.baseEpub.CorDaFonte,
-        alinhamentoTexto: imports.baseEpub.AlinhamentoTexto,
-        corDeFundo: imports.baseEpub.CorDeFundo,
-        tipoDaFonte: imports.baseEpub.TipoDaFonte
-    }
-    return ObjetoInformacao
+function ProcessarCssPertenceRecursiva(posicao, arrayCss) {
+    ProcessarCapturarCss(posicao, arrayCss)
+    if ((imports.baseEpub.objetoTemporario[posicao].pertence !== '') && (imports.baseEpub.objetoTemporario[posicao].pertence !== 'html'))
+        ProcessarCssPertenceRecursiva(imports.baseEpub.objetoTemporario[posicao].pertence, arrayCss)
 }
-exports.ExtrairTextos = (posicao) => {
-    if (this.ehTexto(this.objetoTemporario[posicao].tag)) {
-        let buscarCss = ExtrairDadosCss(posicao)
-        console.log('Retorno: ' + buscarCss.corDaFonte)
-
-        if ((this.objetoTemporario[posicao].texto.trim()) && (this.objetoTemporario[posicao].texto.trim() != '\n\n')) {
-            imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario[posicao].texto)
-            if (imports.tratativaClass.qtdCaracteres > 0) {
-                imports.tratativaClass.incrementaSeguenciaMidias()
-                imports.classDocument.inserirTextos(
-                    imports.tratativaClass.seguenciaMidias,
-                    imports.tratativaClass.seguenciaMidias,
-                    this.objetoTemporario[posicao].texto,
-                    imports.tratativaClass.qtdCaracteres,
-                    buscarCss.corDaFonte, //corDaFonte
-                    buscarCss.tamanhoFonte, //tamanhoDaFonte
-                    buscarCss.tipoDaFonte, //tipoDaFonte
-                    buscarCss.corDeFundo, //corDeFundo
-                    null, //titulo
-                    buscarCss.alinhamentoTexto, //alinhamentoTexto // sera pego do arquivo css
-                    this.objetoTemporario[posicao].tag
-                )
-            }
-        }
-    }
+function CarregarTodoCss() {
+    let retornaCss = ''
+    for (let i = 0; i < imports.baseEpub.objetoCssTemporario.length; i++)
+        retornaCss += substituir(imports.baseEpub.objetoCssTemporario[i], ' ', '')
+    return retornaCss
 }
-exports.ExtrairVideos = () => {
-    if (this.ehVideo(this.objetoTemporario[posicao].tag)) {
-        imports.tratativaClass.incrementaSeguenciaMidias()
-        imports.classDocument.inserirVideos(
-            imports.tratativaClass.seguenciaMidias,
-            imports.tratativaClass.seguenciaMidias,
-            this.objetoTemporario[posicao].title, //tituloAlt
-            this.objetoTemporario[posicao].alt,
-            this.objetoTemporario[posicao].name,
-            this.objetoTemporario[posicao].src,
-            null
-        )
-    }
+function CapturarFontSize(tagCss) {
+    let Aux = RetornarTagCss('font-size:', tagCss)
+    imports.baseEpub.TamanhoDaFonte = Aux
+    imports.baseEpub.QtdCaracteresTamanhoDaFonte = Aux.length
 }
-
-exports.ehTexto = (tag) => {
-    return ((!this.ehImagem(tag)) && (!this.ehVideo(tag)) && (!this.ehAudio(tag)) && (!this.ehTabela(tag)) && (!this.ehGrafico(tag)))
+function CapturarColor(tagCss) {
+    let Aux = RetornarTagCss('color:', tagCss)
+    imports.baseEpub.CorDaFonte = Aux
+    imports.baseEpub.QtdCaracteresCorDaFonte = Aux.length
 }
-exports.ehVideo = (tag) => {
-    return ((tag === 'video') || (tag === 'source') || (tag === 'track'))
+function CapturarFontAlign(tagCss) {
+    let Aux = RetornarTagCss('font-align:', tagCss)
+    imports.baseEpub.AlinhamentoTexto = Aux
+    imports.baseEpub.QtdCaracteresAlinhamentoTexto = Aux.length
 }
-exports.ehImagem = (tag) => {
-    return ((tag === 'img') || (tag === 'figure'))
+function CapturarFontFamily(tagCss) {
+    let Aux = RetornarTagCss('font-family:', tagCss)
+    imports.baseEpub.TipoDaFonte = Aux
+    imports.baseEpub.QtdCaracteresTipoDaFonte = Aux.length
 }
-exports.ehAudio = (tag) => {
-    return ((tag === 'audio') || (tag === 'source'))
+function CapturarFontBackgroundColor(tagCss) {
+    let Aux = RetornarTagCss('background-color:', tagCss)
+    imports.baseEpub.CorDeFundo = Aux
+    imports.baseEpub.QtdCaracteresCorDeFundo = Aux.length
 }
-exports.ehTabela = (tag) => {
-    return ((tag === 'table') || (tag === 'th') || (tag === 'tr') || (tag === 'td') || (tag === 'tbody'))
+function RetornarClasseCss(arrayCss, encontrarTag) {
+    let armazena = arrayCss.substring(arrayCss.indexOf(encontrarTag))
+    return armazena.substring(0, armazena.indexOf('}'))
 }
-exports.ehGrafico = (tag) => {
-    return (tag === 'canvas')
+function substituir(texto, de, por) {
+    var regex = new RegExp(de, "g")
+    return texto.replace(regex, por)
 }
