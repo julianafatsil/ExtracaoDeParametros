@@ -46,7 +46,7 @@ exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
             })
             break;
         case 2:
-            pdfDoc.ExtrairDadosPdf(CaminhArquivo, (retorno) => {
+            pdfDoc.ExtrairDadosPdf(retorno => {
                 return callback(retorno)
             })
             break;

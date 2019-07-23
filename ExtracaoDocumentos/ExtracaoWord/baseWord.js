@@ -175,7 +175,7 @@ module.exports = {
 
         if (imports.baseWord.ehTexto(RecebeJson, caminhoTextoWpr, caminhoTextoWr)) {
             let RecebeDadosTexto = imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:t/0`)
-            imports.tratativaClass.extrairQtdCaracteres(RecebeDadosTexto)
+            imports.tratativaClass.extrairQtdCaracteres(RecebeDadosTexto.trim())
             if (imports.tratativaClass.qtdCaracteres > 0) {
                 let corDaFonte = '000000'
                 let tamanhoDaFonte = 11

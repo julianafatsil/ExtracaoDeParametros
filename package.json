@@ -9,6 +9,7 @@
     "docx-extractor": "^1.1.5",
     "express": "^4.16.4",
     "json-pointer": "^0.6.0",
+    "pdf-parser": "^1.0.5",
     "pdf.js-extract": "^0.1.1",
     "rimraf": "^2.6.3"
   },

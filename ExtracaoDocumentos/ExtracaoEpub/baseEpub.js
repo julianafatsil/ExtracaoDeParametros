@@ -237,10 +237,10 @@ function LimparVariaveisEpub() {
     imports.baseEpub.QtdCaracteresTipoDaFonte = 0
 
     imports.baseEpub.TamanhoDaFonte = ''
-    imports.baseEpub.CorDaFonte = ''
-    imports.baseEpub.AlinhamentoTexto = ''
-    imports.baseEpub.CorDeFundo = ''
-    imports.baseEpub.TipoDaFonte = ''
+    imports.baseEpub.CorDaFonte = '000000'
+    imports.baseEpub.AlinhamentoTexto = 'left'
+    imports.baseEpub.CorDeFundo = 'white'
+    imports.baseEpub.TipoDaFonte = 'Times'
 }
 function RetornarTagCss(tagCss, classCss) {
     let tagTemporaria = ''
