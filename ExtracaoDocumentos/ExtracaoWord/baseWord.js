@@ -116,31 +116,34 @@ module.exports = {
     ExtrairTabelas(RecebeJson) {
         let CaminhoTabela = `/w:document/w:body/0/w:tbl`
 
-        let TotalLinhasTbl = imports.pointer.get(RecebeJson, CaminhoTabela).length
-        for (let i = 0; i < TotalLinhasTbl; i++) {
-            CaminhoTabela = `/w:document/w:body/0/w:tbl/${i}/w:tblPr/0/`
-            try {
-                if (imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblStyle/0/$/w:val`).length > 0) {
-                    let estiloTabela = imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblStyle/0/$/w:val`)
-                    let altTabela = ''
-                    let descricaoTabela = ''
-                    if (imports.pointer.has(RecebeJson, `${CaminhoTabela}w:tblCaption/0/$/w:val`))
-                        altTabela = imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblCaption/0/$/w:val`)
-                    if (imports.pointer.has(RecebeJson, `${CaminhoTabela}w:tblDescription/0/$/w:val`))
-                        descricaoTabela = imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblDescription/0/$/w:val`)
+        if (imports.pointer.has(RecebeJson, CaminhoTabela)) {
+            let TotalLinhasTbl = imports.pointer.get(RecebeJson, CaminhoTabela).length
+            for (let i = 0; i < TotalLinhasTbl; i++) {
+                CaminhoTabela = `/w:document/w:body/0/w:tbl/${i}/w:tblPr/0/`
+                try {
+                    if ((imports.pointer.has(RecebeJson, `${CaminhoTabela}w:tblStyle/0/$/w:val`)) ||
+                        (imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblStyle/0/$/w:val`).length > 0)) {
+                        let estiloTabela = imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblStyle/0/$/w:val`)
+                        let altTabela = ''
+                        let descricaoTabela = ''
+                        if (imports.pointer.has(RecebeJson, `${CaminhoTabela}w:tblCaption/0/$/w:val`))
+                            altTabela = imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblCaption/0/$/w:val`)
+                        if (imports.pointer.has(RecebeJson, `${CaminhoTabela}w:tblDescription/0/$/w:val`))
+                            descricaoTabela = imports.pointer.get(RecebeJson, `${CaminhoTabela}w:tblDescription/0/$/w:val`)
 
-                    imports.tratativaClass.incrementaSeguenciaMidias()
-                    imports.classDocument.inserirTabelas(
-                        imports.tratativaClass.seguenciaMidias,
-                        null,
-                        estiloTabela,
-                        altTabela,
-                        descricaoTabela,
-                        null
-                    )
-                    this.ExtrairEstruturaTabelas(RecebeJson, i, imports.tratativaClass.seguenciaMidias)
-                }
-            } catch (e) { }
+                        imports.tratativaClass.incrementaSeguenciaMidias()
+                        imports.classDocument.inserirTabelas(
+                            imports.tratativaClass.seguenciaMidias,
+                            null,
+                            estiloTabela,
+                            altTabela,
+                            descricaoTabela,
+                            null
+                        )
+                        this.ExtrairEstruturaTabelas(RecebeJson, i, imports.tratativaClass.seguenciaMidias)
+                    }
+                } catch (e) { }
+            }
         }
     },
     ExtrairEstruturaTabelas(RecebeJson, i, seguenciaTabela) {
@@ -148,24 +151,28 @@ module.exports = {
         let tamanhoFonte = ''
         let corFonte = ''
         let corFundo = ''
-        for (let t = 0; t < imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr`).length; t++) {
-            for (let t2 = 0; t2 < imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc`).length; t2++) {
-                fonteTexto = ''
-                tamanhoFonte = ''
-                corFonte = ''
-                corFundo = ''
+        if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr`)) {
+            for (let t = 0; t < imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr`).length; t++) {
+                if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc`)) {
+                    for (let t2 = 0; t2 < imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc`).length; t2++) {
+                        fonteTexto = ''
+                        tamanhoFonte = ''
+                        corFonte = ''
+                        corFundo = ''
 
-                if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:rFonts/0/$/w:hAnsi`))
-                    fonteTexto = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:rFonts/0/$/w:hAnsi`)
-                if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:sz/0/$/w:val`))
-                    tamanhoFonte = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:sz/0/$/w:val`) / 2
-                if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:color/0/$/w:val`))
-                    corFonte = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:color/0/$/w:val`)
-                if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:highlight/0/$/w:val`))
-                    corFundo = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:highlight/0/$/w:val`)
+                        if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:rFonts/0/$/w:hAnsi`))
+                            fonteTexto = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:rFonts/0/$/w:hAnsi`)
+                        if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:sz/0/$/w:val`))
+                            tamanhoFonte = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:sz/0/$/w:val`) / 2
+                        if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:color/0/$/w:val`))
+                            corFonte = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:color/0/$/w:val`)
+                        if (imports.pointer.has(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:highlight/0/$/w:val`))
+                            corFundo = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:tbl/${i}/w:tr/${t}/w:tc/${t2}/w:p/0/w:r/0/w:rPr/0/w:highlight/0/$/w:val`)
 
-                //console.log(fonteTexto + ' - ' + tamanhoFonte + ' - ' + corFonte + ' - ' + corFundo + ' - ' + seguenciaTabela)
-                // Inserir objeto EstrutraTabela
+                        //console.log(fonteTexto + ' - ' + tamanhoFonte + ' - ' + corFonte + ' - ' + corFundo + ' - ' + seguenciaTabela)
+                        // Inserir objeto EstrutraTabela
+                    }
+                }
             }
         }
     },
