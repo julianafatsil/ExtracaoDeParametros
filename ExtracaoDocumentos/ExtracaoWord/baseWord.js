@@ -33,9 +33,10 @@ module.exports = {
         this.legenda = RecebeDadosLegenda
     },
     ehTexto(RecebeJson, caminhoTextoWpr, caminhoTextoWr) {
-        return (((imports.pointer.has(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`)) &&
-            (!imports.pointer.has(RecebeJson, `${caminhoTextoWr}w:drawing/0/wp:inline/0/wp:docPr/0/a:hlinkClick/0`)) &&
-            (imports.pointer.get(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`).toUpperCase() !== 'LEGENDA')))
+        return (((imports.pointer.has(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`)) ||
+            (!imports.pointer.has(RecebeJson, `${caminhoTextoWr}w:drawing/0/wp:inline/0/wp:docPr/0/a:hlinkClick/0`)) ||
+            ((imports.pointer.has(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`)) &&
+                (imports.pointer.get(RecebeJson, `${caminhoTextoWpr}w:pStyle/0/$/w:val`).toUpperCase() !== 'LEGENDA'))))
     },
     ehVideo(RecebeJson, caminhoVideo) {
         return ((imports.pointer.has(RecebeJson, `${caminhoVideo}wp:docPr/0/$/id`)) &&
@@ -180,9 +181,12 @@ module.exports = {
         let caminhoTextoWr = `/w:document/w:body/0/w:p/${PosicaoI}/w:r/${PosicaoJ}/`
         let caminhoTextoWpr = `/w:document/w:body/0/w:p/${PosicaoI}/w:pPr/0/`
 
+        console.log(imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:t/0`))
+
         if (imports.baseWord.ehTexto(RecebeJson, caminhoTextoWpr, caminhoTextoWr)) {
             let RecebeDadosTexto = imports.pointer.get(RecebeJson, `${caminhoTextoWr}w:t/0`)
             imports.tratativaClass.extrairQtdCaracteres(RecebeDadosTexto.trim())
+
             if (imports.tratativaClass.qtdCaracteres > 0) {
                 let corDaFonte = '000000'
                 let tamanhoDaFonte = 11
