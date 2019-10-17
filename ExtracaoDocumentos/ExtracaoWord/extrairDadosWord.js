@@ -10,8 +10,6 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
             let TotalLinhasWR = imports.pointer.get(RecebeJson, `/w:document/w:body/0/w:p/${i}/w:r`).length
             if (TotalLinhasWR > 0) {
                 for (let j = 0; j < TotalLinhasWR; j++) {
-                    //console.log(`${i} - ${j}`)
-                    //console.log(imports.pointer.get(RecebeJson, '/w:document/w:body/0/w:p/' + i + '/w:r/' + j))
 
                     imports.baseWord.ExtrairVideos(RecebeJson, i, j)
 
@@ -20,7 +18,7 @@ exports.ExtrairDadosDocumentoWord = (RecebeJson) => {
                     imports.baseWord.ExtrairGraficos(RecebeJson, i, j)
 
                     imports.baseWord.ExtrairAudios(RecebeJson, i, j)
-
+                    
                     imports.baseWord.ExtrairTextos(RecebeJson, i, j)
                 }
             }
