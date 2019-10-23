@@ -21,7 +21,7 @@ exports.ExtrairDadosEpub = (callback) => {
                                         imports.baseEpub.ExtracaoArqXhtmlECss(imports.baseDocument.caminhoDoArquivo, package.children[i])
                                 }
                             }
-                            imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
+                            //imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
 
                             if (imports.baseEpub.arquivosCss.length > 0) {
                                 for (let i = 0; i < imports.baseEpub.arquivosCss.length; i++) {

@@ -69,15 +69,20 @@ exports.ExtracaoRecursiva = ($, node) => {
     }
 }
 exports.ExtracaoArqXhtmlECss = (caminhoDocumentoEpub, node, callback) => {
+    let DirEpub = caminhoDocumentoEpub
+    if (imports.baseEpub.PastaArquivosEpub.length > 1)
+      DirEpub = DirEpub + imports.baseEpub.PastaArquivosEpub[0] + '/'
+
     for (let i = 0; i < node.children.length; i++) {
         if (node.children[i].type === 'tag') {
             if ((node.children[i].name === 'item')
                 && (node.children[i].attribs['media-type'] === 'application/xhtml+xml')) {
-                this.arquivosXhtml.push(caminhoDocumentoEpub + imports.baseEpub.PastaArquivosEpub[0] + '/' + node.children[i].attribs.href)
+                    console.log(DirEpub + node.children[i].attribs.href)
+                this.arquivosXhtml.push(DirEpub + node.children[i].attribs.href)
             }
             if ((node.children[i].name === 'item')
                 && (node.children[i].attribs['media-type'] === 'text/css')) {
-                this.arquivosCss.push(caminhoDocumentoEpub + imports.baseEpub.PastaArquivosEpub[0] + '/' + node.children[i].attribs.href)
+                this.arquivosCss.push(DirEpub + node.children[i].attribs.href)
             }
             if (node.children[i].children.length > 0) {
                 this.ExtracaoArqXhtmlECss(caminhoDocumentoEpub, node.children[i])

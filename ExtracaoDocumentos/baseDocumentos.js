@@ -30,9 +30,11 @@ exports.RenomearArquivoParaZip = (callback) => {
 exports.ExtrairAquivoZip = (callback) => {
     let DiretorioNomeArquivoZip = this.PastaTemporaria + this.nomeDoArquivoZip
     let DiretorioNomeArquivo = this.PastaTemporaria + this.nomeDoArquivo
-    imports.fs.createReadStream(DiretorioNomeArquivoZip).pipe(imports.unzip.Extract({ path: DiretorioNomeArquivo })).on('close', function () {
-        return callback(imports.fs.lstatSync(DiretorioNomeArquivo).isDirectory() ? true : false)
-    })
+    imports.fs.createReadStream(DiretorioNomeArquivoZip)
+        .pipe(imports.unzipper.Extract({ path: DiretorioNomeArquivo }))
+        .on('entry', entry => entry.autodrain())
+        .promise()
+        .then(() => callback(true), e => callback(false))
 }
 
 exports.ReadDirectory = (FileDirectory, callback) => {
