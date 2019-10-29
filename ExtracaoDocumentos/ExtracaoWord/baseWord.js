@@ -71,11 +71,12 @@ module.exports = {
         let themeColor = ''
         let themeShade = ''
 
-        if (imports.pointer.has(RecebeJson, '/w:document/w:background/0/$/w:color')) {
+        if (imports.pointer.has(RecebeJson, '/w:document/w:background/0/$/w:color'))
             color = imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:color')
+        if (imports.pointer.has(RecebeJson, '/w:document/w:background/0/$/w:themeColor'))
             themeColor = imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeColor')
+        if (imports.pointer.has(RecebeJson, '/w:document/w:background/0/$/w:themeShade'))
             themeShade = imports.pointer.get(RecebeJson, '/w:document/w:background/0/$/w:themeShade')
-        }
 
         imports.classDocument.inserirDadosDocumento(
             imports.baseDocument.caminhoArquivoHaProcessar,
