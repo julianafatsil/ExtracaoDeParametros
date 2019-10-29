@@ -32,3 +32,6 @@ exports.baseEpub = require('./ExtracaoEpub/baseEpub')
 
 exports.extrairDadosPdf = require('./ExtracaoPdf/extrairDadosPdf')
 exports.basePdf = require('./ExtracaoPdf/basePdf')
+
+exports.extrairDocs = require('./extrairDocumentos')
+exports.processarExtracao = require('./processarExtracao')

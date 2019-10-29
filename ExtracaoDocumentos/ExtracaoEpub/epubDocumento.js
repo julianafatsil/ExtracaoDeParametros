@@ -21,7 +21,7 @@ exports.ExtrairDadosEpub = (callback) => {
                                         imports.baseEpub.ExtracaoArqXhtmlECss(imports.baseDocument.caminhoDoArquivo, package.children[i])
                                 }
                             }
-                            //imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
+                            imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
 
                             if (imports.baseEpub.arquivosCss.length > 0) {
                                 for (let i = 0; i < imports.baseEpub.arquivosCss.length; i++) {
@@ -32,11 +32,14 @@ exports.ExtrairDadosEpub = (callback) => {
                             }
 
                             let totalArquivos = imports.baseEpub.arquivosXhtml.length
+                            imports.baseEpub.TotalTeste = 0
                             for (let i = 0; i < imports.baseEpub.arquivosXhtml.length; i++) {
                                 totalArquivos--
-                                imports.extrairDadosEpub.ExtrairDadosDocumentoEpub(imports.baseEpub.arquivosXhtml[i], totalArquivos, retorno => {
-                                    if (retorno)
+                                imports.extrairDadosEpub.ExtrairDadosDocumentoEpub(i, totalArquivos, retorno => {
+                                    if (retorno) {
+                                        imports.baseEpub.ExtrairCabecalho(i)
                                         return callback(imports.classDocument)
+                                    }
                                 })
                             }
                         })

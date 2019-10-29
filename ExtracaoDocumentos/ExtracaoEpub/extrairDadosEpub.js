@@ -1,7 +1,7 @@
 const imports = require('../imports')
 
 exports.ExtrairDadosDocumentoEpub = (arquivoXtml, totalDescontarArquivo, callback) => {
-    imports.baseDocument.ReadFileWithUtf8(arquivoXtml, retorno => {
+    imports.baseDocument.ReadFileWithUtf8(imports.baseEpub.arquivosXhtml[arquivoXtml], retorno => {
         let $ = imports.cheerio.load(retorno)
         $('html').each(function (i, html) {
             for (let i = 0; i < html.children.length; i++) {
@@ -14,7 +14,6 @@ exports.ExtrairDadosDocumentoEpub = (arquivoXtml, totalDescontarArquivo, callbac
                         imports.baseEpub.ExtrairAtributosEpub($, html.children[i].name, 0, html.children[i].parent.name, retorno => {
                             imports.baseEpub.objetoTemporario['body'] = retorno
                             imports.baseEpub.ExtracaoRecursiva($, html.children[i])
-                            //console.log(imports.baseEpub.objetoTemporario)
                         })
                     }
                 }

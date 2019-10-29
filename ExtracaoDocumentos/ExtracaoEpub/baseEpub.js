@@ -29,6 +29,8 @@ exports.QtdCaracteresCorDeFundo = ''
 exports.TipoDaFonte = ''
 exports.QtdCaracteresTipoDaFonte = ''
 
+exports.TotalTeste = 0
+
 exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
     let retorno = {
         pertence: (pertence ? pertence : ''),
@@ -63,9 +65,7 @@ exports.ExtracaoRecursiva = ($, node) => {
             if (node.children[i].children.length > 0) {
                 this.ExtracaoRecursiva($, node.children[i])
             }
-        } else {
-            // console.log('text2: ---', node.type)
-        }
+        } 
     }
 }
 exports.ExtracaoArqXhtmlECss = (caminhoDocumentoEpub, node, callback) => {
@@ -77,7 +77,6 @@ exports.ExtracaoArqXhtmlECss = (caminhoDocumentoEpub, node, callback) => {
         if (node.children[i].type === 'tag') {
             if ((node.children[i].name === 'item')
                 && (node.children[i].attribs['media-type'] === 'application/xhtml+xml')) {
-                    console.log(DirEpub + node.children[i].attribs.href)
                 this.arquivosXhtml.push(DirEpub + node.children[i].attribs.href)
             }
             if ((node.children[i].name === 'item')
@@ -153,7 +152,6 @@ exports.ExtrairTabelas = (posicao) => {
 exports.ExtrairTextos = (posicao) => {
     if (this.ehTexto(this.objetoTemporario[posicao].tag)) {
         let buscarCss = ExtrairDadosCss(posicao)
-        //console.log('Retorno: ' + buscarCss.corDaFonte)
 
         if ((this.objetoTemporario[posicao].texto.trim()) && (this.objetoTemporario[posicao].texto.trim() != '\n\n')) {
             imports.tratativaClass.extrairQtdCaracteres(this.objetoTemporario[posicao].texto)
@@ -194,7 +192,6 @@ exports.ExtrairHead = (nodeHead) => {
     for (let h = 0; h < nodeHead.children.length; h++) {
         if (nodeHead.children[h].tagName === 'style')
             imports.baseEpub.objetoCssTemporario.push(nodeHead.children[h].children[0].data)
-        //console.log(h + ' = ' + nodeHead.children[h].name + ' - ' + nodeHead.children[h].tagName)
     }
 }
 exports.ehTexto = (tag) => {
