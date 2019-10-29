@@ -16,6 +16,6 @@ Após realizar o clone, instale os módulos:
         2.2.1 - Exemplo para chamada da função:
         processarExtracao = require('./ExtracaoDocumentos/processarExtracao')
         processarExtracao.ProcessarExtracao(caminhodoArquivo, retorno => {
-            return res.send(retorno)
+            // retorno : Nesta variável estará o retorno da API, em formato JSON
         })
 
