@@ -21,13 +21,12 @@ exports.NaoEhExtensaoValida = (CodigoExtensao) => {
 }
 
 exports.ExecucaoExtracao = (CodigoDocumento, CaminhArquivo, callback) => {
-    imports.baseDocument.PastaTemporaria = `${__dirname}/tmp/`
     const epubDoc = require('./ExtracaoEpub/epubDocumento')
     const docxDoc = require('./ExtracaoWord/wordDocumento')
     const pdfDoc = require('./ExtracaoPdf/pdfDocumento')
 
     imports.tratativaClass.removerNulos()
-    imports.baseDocument.GravarNomeArquivoHeNomeZip(CaminhArquivo, retorno => {
+    imports.baseDocument.GravarConfiguracaoArquivo(CaminhArquivo, retorno => {
         if (!retorno) {
             imports.classErros.indice = 'ErroDocumentos'
             return callback(imports.classErros.erros[`${imports.classErros.indice}`])

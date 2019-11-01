@@ -1,37 +1,48 @@
 const imports = require('./imports')
 
-exports.caminhoArquivoHaProcessar = ''
 exports.PastaTemporaria = ''
-exports.caminhoDoArquivo = ''
-exports.nomeDoArquivo = ''
-exports.nomeDoArquivoZip = ''
+exports.PastaUpload = ''
+exports.CaminhoArquivoUpload = ''
+exports.CaminhoArquivoZip = ''
+exports.CaminhoArquivoTemporario = ''
+exports.PastaArquivoTemporario = ''
 
-exports.GravarNomeArquivoHeNomeZip = (caminhoArquivo, callback) => {
-    this.caminhoArquivoHaProcessar = caminhoArquivo
-    this.nomeDoArquivo = imports.path.basename(this.caminhoArquivoHaProcessar)
-    this.nomeDoArquivoZip = `${this.nomeDoArquivo}.zip`
-    this.caminhoDoArquivo = `${this.PastaTemporaria}${this.nomeDoArquivo}/`
+// exports.caminhoArquivoHaProcessar = ''
+// exports.nomeDoArquivo = ''
+// exports.nomeDoArquivoZip = ''
+// exports.caminhoDoArquivo = ''
 
-    return callback(this.nomeDoArquivo.length > 1 ? true : false)
+exports.GravarConfiguracaoArquivo = (NomeArquivo, callback) => {
+    this.CaminhoArquivoZip = `${this.PastaTemporaria}${NomeArquivo}.zip`
+    this.CaminhoArquivoTemporario = `${this.PastaTemporaria}${NomeArquivo}`
+    this.PastaArquivoTemporario = `${this.PastaTemporaria}${NomeArquivo}/`
+    this.CaminhoArquivoUpload = `${this.PastaUpload}${NomeArquivo}`
+
+    // this.caminhoArquivoHaProcessar = NomeArquivo
+    // this.nomeDoArquivo = imports.path.basename(this.caminhoArquivoHaProcessar)
+    // this.nomeDoArquivoZip = `${this.nomeDoArquivo}.zip`
+    // this.caminhoDoArquivo = `${this.PastaTemporaria}${this.nomeDoArquivo}/`
+
+    return callback(NomeArquivo.length > 1 ? true : false)
 }
 
 exports.CopiarArquivoNaPasta = (callback) => {
-    imports.fse.copy(this.caminhoArquivoHaProcessar, this.caminhoDoArquivo, function (err) {
+    console.log(this.CaminhoArquivoTemporario)
+    console.log(this.CaminhoArquivoUpload)
+    imports.fse.copy(this.CaminhoArquivoUpload, this.CaminhoArquivoTemporario, function (err) {
         return callback(err ? false : true)
     })
 }
 
 exports.RenomearArquivoParaZip = (callback) => {
-    imports.fs.rename(__dirname + '/tmp/' + this.nomeDoArquivo, __dirname + '/tmp/' + this.nomeDoArquivoZip, function (err) {
+    imports.fs.rename(this.CaminhoArquivoTemporario, this.CaminhoArquivoZip, function (err) {
         return callback(err ? false : true)
     })
 }
 
 exports.ExtrairAquivoZip = (callback) => {
-    let DiretorioNomeArquivoZip = this.PastaTemporaria + this.nomeDoArquivoZip
-    let DiretorioNomeArquivo = this.PastaTemporaria + this.nomeDoArquivo
-    imports.fs.createReadStream(DiretorioNomeArquivoZip)
-        .pipe(imports.unzipper.Extract({ path: DiretorioNomeArquivo }))
+    imports.fs.createReadStream(this.CaminhoArquivoZip)
+        .pipe(imports.unzipper.Extract({ path: this.CaminhoArquivoTemporario }))
         .on('entry', entry => entry.autodrain())
         .promise()
         .then(() => callback(true), e => callback(false))
@@ -74,13 +85,10 @@ exports.ExtrairTodosArquivo = (PastaInicalSerExtraida, callback) => {
     return callback(Busca)
 }
 exports.ExcluirDiretorioComArquivos = (caminhoDirExcluir, callback) => {
-    imports.rimraf(caminhoDirExcluir, function () {
-
-    })
+    imports.rimraf(caminhoDirExcluir, function () { })
     return callback(caminhoDirExcluir)
 }
 exports.ExtrairParaPastaTemporaria = (callback) => {
-    imports.baseDocument.ExcluirDiretorioComArquivos(this.PastaTemporaria, retorno => { })
     this.CopiarArquivoNaPasta(retorno => {
         if (retorno) {
             this.RenomearArquivoParaZip(retorno => {

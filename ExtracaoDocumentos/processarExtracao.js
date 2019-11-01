@@ -1,6 +1,7 @@
 imports = require('./imports')
 
 exports.ProcessarExtracao = (CaminhoArquivo, callback) => {
+    console.log(CaminhoArquivo)
 
     if (!CaminhoArquivo)
         return callback({ message: 'Erro: Arquivo não informado' })

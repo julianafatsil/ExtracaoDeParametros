@@ -4,6 +4,7 @@ exports.unzip = require('unzip')
 exports.rimraf = require('rimraf')
 exports.cheerio = require('cheerio')
 exports.unzipper = require('unzipper')
+exports.multer = require('multer')
 
 exports.pdfParser = require('pdf-parser')
 const PDFExtract = require('pdf.js-extract').PDFExtract

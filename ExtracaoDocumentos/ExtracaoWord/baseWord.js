@@ -8,7 +8,7 @@ module.exports = {
 
     carregarCaminhosWord(callback) {
         this.arquivoTempJson = `${imports.baseDocument.PastaTemporaria}temp.json`
-        this.arquivoDocumentXML = `${imports.baseDocument.caminhoDoArquivo}word/document.xml`
+        this.arquivoDocumentXML = `${imports.baseDocument.PastaArquivoTemporario}word/document.xml`
 
         return callback(this.arquivoTempJson.length > 10 ? true : false)
     },
@@ -263,9 +263,9 @@ module.exports = {
             )
         }
     },
-    ExtrairStyle(pastaTemporaria) {
-        const arquivoTempJson2 = `${pastaTemporaria}/tempStyle.json`
-        imports.baseDocument.ReadFileWithXml(`${pastaTemporaria}/word/styles.xml`, (err) => {
+    ExtrairStyle() {
+        const arquivoTempJson2 = `${imports.baseDocument.PastaArquivoTemporario}/tempStyle.json`
+        imports.baseDocument.ReadFileWithXml(`${imports.baseDocument.PastaArquivoTemporario}/word/styles.xml`, (err) => {
             imports.parser.parseString(err, (err, result) => {
                 parsedData = JSON.stringify(result)
 

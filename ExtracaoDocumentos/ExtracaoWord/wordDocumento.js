@@ -1,11 +1,11 @@
 const imports = require('../imports')
 
 exports.ExtrairDadosDocx = (callback) => {
-    imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
+   imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
 
     imports.baseDocument.ExtrairParaPastaTemporaria(retorno => {
         if (retorno) {
-            imports.baseWord.ExtrairStyle(`${imports.baseDocument.caminhoDoArquivo}`)
+            imports.baseWord.ExtrairStyle()
 
             imports.baseDocument.ReadFileWithXml(imports.baseWord.arquivoDocumentXML, retorno => {
                 imports.parser.parseString(retorno, (retorno, result) => {
@@ -14,10 +14,10 @@ exports.ExtrairDadosDocx = (callback) => {
                     imports.jsonfile.writeFile(imports.baseWord.arquivoTempJson, parsedData, function (retorno) {
                         imports.jsonfile.readFile(imports.baseWord.arquivoTempJson, function (retorno, obj) {
 
-                            const jsonData = JSON.parse(obj)
-                            imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
+                            const jsonData = JSON.parse(obj)                            
                             imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
 
+                           imports.baseDocument.ExcluirDiretorioComArquivos(imports.baseDocument.PastaTemporaria, retorno => { })
                             return callback(imports.classDocument)
                         })
                     })
