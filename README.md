@@ -1,5 +1,5 @@
 # Extração de Parâmetros
-Extração de parâmetros de acessibilidade em arquivos .docx, .pdf e .epub.
+Extração de parâmetros de acessibilidade de arquivos com extensão DOCX, EPUB E PDF.
 
 Passos para configuração:
 

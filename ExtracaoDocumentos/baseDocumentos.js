@@ -48,6 +48,15 @@ exports.ExtrairAquivoZip = (callback) => {
         .then(() => callback(true), e => callback(false))
 }
 
+exports.DeletarArquivoUpload = (callback) => {
+    imports.fse.remove(this.CaminhoArquivoUpload, err => {
+        if (err)
+            return callback(false)
+        else
+            return callback(true)
+    })
+}
+
 exports.ReadDirectory = (FileDirectory, callback) => {
     imports.fs.readdir(__dirname + '/tmp/' + FileDirectory, (err, ArchiveDirectory) => {
         if (err) {
@@ -95,7 +104,14 @@ exports.ExtrairParaPastaTemporaria = (callback) => {
                 if (retorno) {
                     this.ExtrairAquivoZip(retorno => {
                         if (retorno) {
-                            return callback(true)
+                            this.DeletarArquivoUpload(retorno => {
+                                if (retorno)
+                                    return callback(true)
+                                else {
+                                    imports.classErros.indice = 'ErroDeletarUpload'
+                                    return callback(false)
+                                }
+                            })
                         } else {
                             imports.classErros.indice = 'ErroExtrair'
                             return callback(false)

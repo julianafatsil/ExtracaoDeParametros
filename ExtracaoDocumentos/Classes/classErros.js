@@ -5,7 +5,8 @@ module.exports = {
         'ErroExtrair': { message: 'Não foi possivel realizar a extração do documento, favor tente realizar uma nova consulta.' },
         'ErroRenomear': { message: 'Não foi possivel renomear o arquivo para .zip, ocorreu alguma inconsistencia, favor tentar novamente.' },
         'ErroCopiar': { message: 'Não foi possivel copiar o arquivo para o servidor, favor tente novamente.' },
-        'ErroDocumentos': { message: 'Não foi possivel extrair caminhos e dados dos arquivos para extração do documento, favor tente novamente.' }
+        'ErroDocumentos': { message: 'Não foi possivel extrair caminhos e dados dos arquivos para extração do documento, favor tente novamente.' },
+        'ErroDeletarUpload' : { message: 'Não foi possível excluir o arquivo Upload'}
     },
     indice: 'Erro'
 }
