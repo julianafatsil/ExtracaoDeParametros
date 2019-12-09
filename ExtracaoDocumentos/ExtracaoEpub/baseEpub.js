@@ -35,7 +35,7 @@ exports.ExtrairAtributosEpub = ($, tag, j, pertence, callback) => {
     let retorno = {
         pertence: (pertence ? pertence : ''),
         tag: tag,
-        texto: $(tag).eq(j).text(),
+        texto: ($(tag).eq(j).text() ? $(tag).eq(j).text() : ''),
         class: ($(tag).eq(j).attr('class') ? $(tag).eq(j).attr('class') : ''),
         id: $(tag).eq(j).attr('id'),
         alt: $(tag).eq(j).attr('alt'),
@@ -59,19 +59,22 @@ exports.ExtracaoRecursiva = ($, node) => {
             pertence = pertenceAh(node.children[i].parent.name, $(node.children[i].parent.name).parent().text())
             this.ExtrairAtributosEpub($, node.children[i].name, j, pertence, retorno => {
                 this.objetoTemporario[nomeObjeto] = retorno
+
+                if (retorno.pertence !== '')
+                    this.objetoTemporario[retorno.pertence].texto = this.objetoTemporario[retorno.pertence].texto.replace(retorno.texto, '')
             })
             if (node.children[i].name === 'p')
                 j++
             if (node.children[i].children.length > 0) {
                 this.ExtracaoRecursiva($, node.children[i])
             }
-        } 
+        }
     }
 }
 exports.ExtracaoArqXhtmlECss = (caminhoDocumentoEpub, node, callback) => {
     let DirEpub = caminhoDocumentoEpub
     if (imports.baseEpub.PastaArquivosEpub.length > 1)
-      DirEpub = DirEpub + imports.baseEpub.PastaArquivosEpub[0] + '/'
+        DirEpub = DirEpub + imports.baseEpub.PastaArquivosEpub[0] + '/'
 
     for (let i = 0; i < node.children.length; i++) {
         if (node.children[i].type === 'tag') {
