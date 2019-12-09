@@ -6,7 +6,8 @@ module.exports = {
         'ErroRenomear': { message: 'Não foi possivel renomear o arquivo para .zip, ocorreu alguma inconsistencia, favor tentar novamente.' },
         'ErroCopiar': { message: 'Não foi possivel copiar o arquivo para o servidor, favor tente novamente.' },
         'ErroDocumentos': { message: 'Não foi possivel extrair caminhos e dados dos arquivos para extração do documento, favor tente novamente.' },
-        'ErroDeletarUpload' : { message: 'Não foi possível excluir o arquivo Upload'}
+        'ErroDeletarUpload' : { message: 'Não foi possível excluir o arquivo Upload'},
+        'ErroDeletarPastaArquivo': {message: 'Não foi possível excluir a pasta temporaria.'}
     },
     indice: 'Erro'
 }

@@ -7,21 +7,11 @@ exports.CaminhoArquivoZip = ''
 exports.CaminhoArquivoTemporario = ''
 exports.PastaArquivoTemporario = ''
 
-// exports.caminhoArquivoHaProcessar = ''
-// exports.nomeDoArquivo = ''
-// exports.nomeDoArquivoZip = ''
-// exports.caminhoDoArquivo = ''
-
 exports.GravarConfiguracaoArquivo = (NomeArquivo, callback) => {
     this.CaminhoArquivoZip = `${this.PastaTemporaria}${NomeArquivo}.zip`
     this.CaminhoArquivoTemporario = `${this.PastaTemporaria}${NomeArquivo}`
     this.PastaArquivoTemporario = `${this.PastaTemporaria}${NomeArquivo}/`
     this.CaminhoArquivoUpload = `${this.PastaUpload}${NomeArquivo}`
-
-    // this.caminhoArquivoHaProcessar = NomeArquivo
-    // this.nomeDoArquivo = imports.path.basename(this.caminhoArquivoHaProcessar)
-    // this.nomeDoArquivoZip = `${this.nomeDoArquivo}.zip`
-    // this.caminhoDoArquivo = `${this.PastaTemporaria}${this.nomeDoArquivo}/`
 
     return callback(NomeArquivo.length > 1 ? true : false)
 }
@@ -93,37 +83,44 @@ exports.ExtrairTodosArquivo = (PastaInicalSerExtraida, callback) => {
     })
     return callback(Busca)
 }
-exports.ExcluirDiretorioComArquivos = (caminhoDirExcluir, callback) => {
-    imports.rimraf(caminhoDirExcluir, function () { })
-    return callback(caminhoDirExcluir)
+exports.ExcluirDiretorioComArquivos = (callback) => {
+    imports.rimraf(imports.baseDocument.PastaTemporaria, function () { })
+    return callback(imports.baseDocument.PastaTemporaria)
 }
 exports.ExtrairParaPastaTemporaria = (callback) => {
-    this.CopiarArquivoNaPasta(retorno => {
+    this.ExcluirDiretorioComArquivos(retorno => {
         if (retorno) {
-            this.RenomearArquivoParaZip(retorno => {
+            this.CopiarArquivoNaPasta(retorno => {
                 if (retorno) {
-                    this.ExtrairAquivoZip(retorno => {
+                    this.RenomearArquivoParaZip(retorno => {
                         if (retorno) {
-                            this.DeletarArquivoUpload(retorno => {
-                                if (retorno)
-                                    return callback(true)
-                                else {
-                                    imports.classErros.indice = 'ErroDeletarUpload'
+                            this.ExtrairAquivoZip(retorno => {
+                                if (retorno) {
+                                    this.DeletarArquivoUpload(retorno => {
+                                        if (retorno)
+                                            return callback(true)
+                                        else {
+                                            imports.classErros.indice = 'ErroDeletarUpload'
+                                            return callback(false)
+                                        }
+                                    })
+                                } else {
+                                    imports.classErros.indice = 'ErroExtrair'
                                     return callback(false)
                                 }
                             })
                         } else {
-                            imports.classErros.indice = 'ErroExtrair'
+                            imports.classErros.indice = 'ErroRenomear'
                             return callback(false)
                         }
                     })
                 } else {
-                    imports.classErros.indice = 'ErroRenomear'
+                    imports.classErros.indice = 'ErroCopiar'
                     return callback(false)
                 }
             })
         } else {
-            imports.classErros.indice = 'ErroCopiar'
+            imports.classErros.indice = 'ErroDeletarPastaArquivo'
             return callback(false)
         }
     })
