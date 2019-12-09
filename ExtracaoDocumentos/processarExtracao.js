@@ -11,6 +11,7 @@ exports.ProcessarExtracao = (CaminhoArquivo, callback) => {
         return callback({ message: 'Erro: Arquivo informado com extensão inválida' })
 
     imports.extrairDocs.ExecucaoExtracao(codigoArquivo, CaminhoArquivo, (Retorno) => {
+        imports.baseDocument.ExcluirDiretorioComArquivos(retorno => {})
         return callback(Retorno)
     })
 }

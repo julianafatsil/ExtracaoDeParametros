@@ -22,8 +22,6 @@ exports.ExtrairDadosEpub = (callback) => {
                                         imports.baseEpub.ExtracaoArqXhtmlECss(imports.baseDocument.PastaArquivoTemporario, package.children[i])
                                 }
                             }
-                            imports.baseDocument.ExcluirDiretorioComArquivos(retorno => { })
-
                             if (imports.baseEpub.arquivosCss.length > 0) {
                                 for (let i = 0; i < imports.baseEpub.arquivosCss.length; i++) {
                                     imports.baseDocument.ReadFileWithUtf8(imports.baseEpub.arquivosCss[i], retorno => {

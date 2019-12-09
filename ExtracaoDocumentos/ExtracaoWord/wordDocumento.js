@@ -1,8 +1,6 @@
 const imports = require('../imports')
 
 exports.ExtrairDadosDocx = (callback) => {
-   imports.baseDocument.ExcluirDiretorioComArquivos(retorno => { })
-
     imports.baseDocument.ExtrairParaPastaTemporaria(retorno => {
         if (retorno) {
             imports.baseWord.ExtrairStyle()
@@ -17,7 +15,6 @@ exports.ExtrairDadosDocx = (callback) => {
                             const jsonData = JSON.parse(obj)                            
                             imports.extrairDadosWord.ExtrairDadosDocumentoWord(jsonData)
 
-                           imports.baseDocument.ExcluirDiretorioComArquivos(retorno => { })
                             return callback(imports.classDocument)
                         })
                     })

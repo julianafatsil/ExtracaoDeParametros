@@ -84,8 +84,9 @@ exports.ExtrairTodosArquivo = (PastaInicalSerExtraida, callback) => {
     return callback(Busca)
 }
 exports.ExcluirDiretorioComArquivos = (callback) => {
-    imports.rimraf(imports.baseDocument.PastaTemporaria, function () { })
-    return callback(imports.baseDocument.PastaTemporaria)
+    imports.rimraf(imports.baseDocument.PastaTemporaria, function () { 
+        return callback(imports.baseDocument.PastaTemporaria)
+    })
 }
 exports.ExtrairParaPastaTemporaria = (callback) => {
     this.ExcluirDiretorioComArquivos(retorno => {
@@ -120,8 +121,14 @@ exports.ExtrairParaPastaTemporaria = (callback) => {
                 }
             })
         } else {
-            imports.classErros.indice = 'ErroDeletarPastaArquivo'
-            return callback(false)
+            this.ExtrairParaPastaTemporaria(retorno => {
+                if (retorno) {
+                    callback(retorno)
+                } else {
+                    imports.classErros.indice = 'ErroDeletarPastaArquivo'
+                    return callback(false)
+                }
+            })
         }
     })
 }
