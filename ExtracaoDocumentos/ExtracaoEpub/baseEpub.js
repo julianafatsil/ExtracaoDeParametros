@@ -66,6 +66,7 @@ exports.ExtracaoRecursiva = ($, node) => {
             if (node.children[i].name === 'p')
                 j++
             if (node.children[i].children.length > 0) {
+                console.log('this.ExtracaoRecursiva: ' + node.children[i].children.length)
                 this.ExtracaoRecursiva($, node.children[i])
             }
         }
@@ -277,10 +278,11 @@ function ProcessarCssStyle(posicao) {
 function ProcessarCapturarCss(posicao, arrayCss) {
     let classeCss
 
-    if ((arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' + imports.baseEpub.objetoTemporario[posicao].class + '{') === 0) &&
+    if ((arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' + imports.baseEpub.objetoTemporario[posicao].class + '{') === 0) ||
         (arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].class + '{') > 0)) {
 
-        classeCss = RetornarClasseCss(arrayCss, imports.baseEpub.objetoTemporario[posicao].class + '{')
+        classeCss = RetornarClasseCss(arrayCss, imports.baseEpub.objetoTemporario[posicao].class + '{') + ';}'
+
         if (imports.baseEpub.QtdCaracteresTamanhoDaFonte === 0)
             CapturarFontSize(classeCss)
 
@@ -294,7 +296,7 @@ function ProcessarCapturarCss(posicao, arrayCss) {
             CapturarFontFamily(classeCss)
 
         if (imports.baseEpub.QtdCaracteresAlinhamentoTexto === 0)
-            CapturarFontAlign(classeCss)
+            CapturarTextAlign(classeCss)
     }
 
     if ((arrayCss.indexOf(imports.baseEpub.objetoTemporario[posicao].tag + '.' +
@@ -316,7 +318,7 @@ function ProcessarCapturarCss(posicao, arrayCss) {
             CapturarFontFamily(classeCss)
 
         if (imports.baseEpub.QtdCaracteresAlinhamentoTexto === 0)
-            CapturarFontAlign(classeCss)
+            CapturarTextAlign(classeCss)
 
     }
 
@@ -335,7 +337,7 @@ function ProcessarCapturarCss(posicao, arrayCss) {
             CapturarFontFamily(classeCss)
 
         if (imports.baseEpub.QtdCaracteresAlinhamentoTexto === 0)
-            CapturarFontAlign(classeCss)
+            CapturarTextAlign(classeCss)
     }
 }
 function ProcessarCssPertenceRecursiva(posicao, arrayCss) {
@@ -359,10 +361,12 @@ function CapturarColor(tagCss) {
     imports.baseEpub.CorDaFonte = Aux
     imports.baseEpub.QtdCaracteresCorDaFonte = Aux.length
 }
-function CapturarFontAlign(tagCss) {
-    let Aux = RetornarTagCss('font-align:', tagCss)
-    imports.baseEpub.AlinhamentoTexto = Aux
-    imports.baseEpub.QtdCaracteresAlinhamentoTexto = Aux.length
+function CapturarTextAlign(tagCss) {
+    let Aux = RetornarTagCss('text-align:', tagCss)
+    if (Aux.length > 0) {
+        imports.baseEpub.AlinhamentoTexto = Aux
+        imports.baseEpub.QtdCaracteresAlinhamentoTexto = Aux.length
+    }
 }
 function CapturarFontFamily(tagCss) {
     let Aux = RetornarTagCss('font-family:', tagCss)
