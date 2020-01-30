@@ -1,6 +1,5 @@
 exports.fs = require('fs')
 exports.fse = require('fs-extra')
-exports.unzip = require('unzip')
 exports.rimraf = require('rimraf')
 exports.cheerio = require('cheerio')
 exports.unzipper = require('unzipper')
