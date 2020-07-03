@@ -1,5 +1,6 @@
 # API ACCESSIBILITY EXTRACTION
-Extração de parâmetros de acessibilidade de arquivos com extensão DOCX, EPUB E PDF.
+Este projeto consiste no desenvolvimento de uma API em NodeJs para extrair automaticamente parâmetros em objetos de aprendizagem digital EPUB, DOCX e PDF.
+Esses parâmetros são usados para verificar o grau de acessibilidade destes Objetos Digitais de Aprendizagem para pessoas com deficiência auditiva e visual. Este projeto tem o apoio do grupo de Desenvolvimento e Inovação em Reabilitação e Tecnologia Assistiva Digital (DIRTA-UFSM) e da equipe do Laboratório de Mídias e Inclusão Social (LAMID) da Universidade Federal de Santa Catarina (UFSC).
 
 Passos para configuração:
 
